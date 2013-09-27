@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  +navbar()
+  .jumbotron
+    .container
+      h1= title
+      p Welcome to #{title}
+      a(href='lessons', class='btn btn-primary btn-lg')= '开始课程 »'

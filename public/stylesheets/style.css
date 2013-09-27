@@ -1,0 +1,29 @@
+html, body,h1, h2, h3, h4, h5, h6 {
+  font-family: "Microsoft YaHei", "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+code, pre {
+	font-family: Monaco, Consolas
+}
+body {
+	padding: 50px;
+}
+
+
+
+
+
+a {
+  color: #00B7FF;
+}
+
+.nav-tabs, .nav-pills {
+    text-transform: uppercase;
+}
+
+.navbar-brand {
+	padding: 9px;
+}
+
+img {
+	margin: 0px;
+}
