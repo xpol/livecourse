@@ -1,0 +1,17 @@
+extends layout
+
+block content
+	- var nrows = Math.ceil(all.length / 3.0)
+	- for (var row=0; row < all.length; row++)
+		.row
+			- for (var i = row*3; i < all.length; i++)
+				- var item = all[i]
+				.col-sm-6.col-md-3
+					.thumbnail
+						img(src="/images/"+item.logo)
+						.caption
+							h3= item.name
+							.brief
+								p= item.brief
+							p
+								a.btn.btn-primary.btn-lg(href="/branches") 进入 »

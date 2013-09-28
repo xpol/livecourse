@@ -1,0 +1,7 @@
+{
+	"all":[
+	{"name":"软件技术", "logo":"cdvtc.jpg", "brief":"软件技术", "courses":[0, 1, 2]},
+	{"name":"计算机应用技术", "logo":"cdvtc.jpg", "brief":"计算机应用技术", "courses":[0, 1, 2]},
+	{"name":"计算机网络技术", "logo":"cdvtc.jpg", "brief":"计算机网络技术", "courses":[0, 1, 2]}
+	]
+}

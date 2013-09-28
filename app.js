@@ -5,6 +5,9 @@
 
 var express = require('express');
 var routes = require('./routes');
+var college = require('./routes/college');
+var branch = require('./routes/branch');
+var course = require('./routes/course');
 var lesson = require('./routes/lesson');
 var http = require('http');
 var path = require('path');
@@ -12,7 +15,7 @@ var path = require('path');
 var app = express();
 
 // all environments
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 80);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(express.favicon());
@@ -27,9 +30,13 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+
 app.get('/', routes.index);
+app.get('/colleges', college.index);
+app.get('/branches', branch.index);
+app.get('/courses', course.index);
 app.get('/lessons', lesson.index);
-app.get('/lessons/:id', lesson.view);
+app.get('/about', routes.about)
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
