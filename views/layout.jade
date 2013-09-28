@@ -1,20 +1,24 @@
 doctype 5
-html
-  head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
-    link(rel='stylesheet', href='/stylesheets/bootstrap-theme.min.css')
-    link(rel='stylesheet', href='/stylesheets/style.css')
-    script(src="/javascripts/bootstrap.min.js")
-  body
-    mixin navbar()
-      nav(class=['navbar', 'navbar-default'], role='navigation')
-        .navbar-header
-          a(class="navbar-brand", href="/"): img(src='images/Home.png')
-        div(class=["collapse', 'navbar-collapse', 'navbar-ex1-collapse"])
-          ul(class=['nav', 'navbar-nav'])
-            li(class=title=='课程'?'active':'')
-              a(href='/lessons') 课程
-            li(class=acitve=='关于'?'active':'')
-              a(href='about') 关于
-    block content
+html(lang="zhCN")
+	head
+		title= title
+		link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+		link(rel='stylesheet', href='/stylesheets/bootstrap-theme.min.css')
+		link(rel='stylesheet', href='/stylesheets/style.css')
+		script(src="/javascripts/jquery-2.0.3.min.js")
+		script(src="/javascripts/bootstrap.min.js")
+
+	body
+	- var navs = [{url:'/colleges', title:"院系"},{url:'/branches', title:"专业"},{url:'/courses', title:"课程"},{url:'/about', title:"关于"}]
+		nav(class=['navbar', 'navbar-default'], role='navigation')
+			.navbar-header
+				a(class="navbar-brand", href="/"): img(src='/images/Home.png')
+			div.collapse.navbar-collapse.navbar-ex1-collapse
+				ul.nav.navbar-nav
+					- navs.forEach(function(item){
+						- var active = (item.url == path ? 'active' : '')
+						li(class=active)
+							a(href=item.url)= item.title
+					- })
+
+		block content

@@ -27,3 +27,13 @@ a {
 img {
 	margin: 0px;
 }
+
+
+#editor { 
+    width: 45%;
+    height: 40em;
+}
+
+.thumbnail .brief {
+	height: 8em;
+}

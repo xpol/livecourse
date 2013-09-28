@@ -1,0 +1,17 @@
+extends layout
+
+block content
+	h1= title
+	div
+		pre#editor= lesson.data
+
+	script(type="text/javascript", src="/javascripts/lib/ace.js")
+	script(type="text/javascript", src="/javascripts/lib/ext-modelist.js")
+	script(type='text/javascript').
+		var editor = ace.edit("editor");
+		editor.setTheme("ace/theme/monokai");
+		var modelist = require('ace/ext/modelist');
+		var mode = modelist.getModeForPath("#{lesson.file}")
+		console.log(mode.mode)
+		editor.getSession().setMode(mode.mode);
+		editor.resize()
