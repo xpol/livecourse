@@ -2,6 +2,23 @@ extends layout
 
 block content
 	h1= title
+
+	section#sidebar
+		nav#sidebar-nav
+			h2 C语言：基础功能
+			.list-group
+				a.list-group-item.active(href="#") Hello World!
+				a.list-group-item(href="#") What's your name?
+				a.list-group-item(href="#") Let's compute!
+				a.list-group-item(href="#") If statements
+				a.list-group-item(href="#") Loops in C
+				a.list-group-item(href="#") Switch case
+		#sidebar-controls
+			a.sidebar-rewatch(href="#") 观看教学视频
+			a.sidebar-slides.btn(href="#", target="blank") 下载幻灯片
+		footer
+			a.sidebar-about(href="#") A Bulblor Labs Product
+
 	div
 		pre#editor= lesson.data
 
@@ -9,7 +26,7 @@ block content
 	script(type="text/javascript", src="/javascripts/lib/ext-modelist.js")
 	script(type='text/javascript').
 		var editor = ace.edit("editor");
-		editor.setTheme("ace/theme/monokai");
+		editor.setTheme("ace/theme/chrome");
 		var modelist = require('ace/ext/modelist');
 		var mode = modelist.getModeForPath("#{lesson.file}")
 		console.log(mode.mode)
