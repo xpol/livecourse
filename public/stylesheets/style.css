@@ -1,44 +1,33 @@
 html, body,h1, h2, h3, h4, h5, h6 {
   font-family: "Microsoft YaHei", "Lucida Grande", Helvetica, Arial, sans-serif;
 }
-code, pre {
-	font-family: Monaco, Consolas
-}
-body {
-	padding: 20px;
-}
+code, pre { font-family: Monaco, Consolas}
+body { padding: 20px; }
+h2 { font-size: 20px;}
+/*a { color: #00B7FF;}*/
 
-h2 {
-	font-size: 20px;
+/*
+* Custom Bootstrap
+*/
+.navbar-brand {padding: 8px; }
+.row { margin-top: 5px; }
+
+.nav.nav-tabs li {margin-right: 2px;}
+.nav.nav-tabs li a {
+	padding: 4px 8px 4px 8px;
+	color:rgb(68, 66, 69);
+	background-color: rgb(163, 156, 159);
+	background-image: -webkit-linear-gradient(top, rgb(173, 167, 170), rgb(163, 156, 159));
+	cursor: pointer;
 }
-
-
-a {
-  color: #00B7FF;
-}
-
-.nav-tabs, .nav-pills {
-    text-transform: uppercase;
-}
-
-.navbar-brand {
-	padding: 9px;
-}
-
-img {
-	margin: 0px;
+.nav.nav-tabs li.active a {
+	color: rgb(122, 178, 193);
+	background-color: rgb(255, 255, 255);
+	background-image: -webkit-linear-gradient(top, rgb(229, 240, 243), rgb(255, 255, 255));
+	cursor: default;
 }
 
 
-#editor { 
-    width: 45%;
-    height: 40em;
-    min-width: 350px;
-}
-
-.thumbnail .brief {
-	height: 8em;
-}
 
 #sidebar {
 	float:left;
@@ -56,4 +45,32 @@ img {
 #sidebar footer {
 	bottom: 0;
 	position: absolute;
+}
+
+#editor-panels {
+	float: left;
+	width: 45%;
+}
+
+.editor { 
+    height: 500px;
+    min-width: 350px;
+    font-family: Monaco;
+}
+
+#output-panels {
+	float: right;
+	width: 37%;
+	margin: 0 2% 0 0;
+	display: inline;
+
+}
+
+#console
+{
+	height: 500px;
+	font-family: Monaco;
+	background-color: black;
+	color: gray;
+	font-weight: bold;
 }

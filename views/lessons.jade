@@ -15,20 +15,44 @@ block content
 				a.list-group-item(href="#") Switch case
 		#sidebar-controls
 			a.sidebar-rewatch(href="#") 观看教学视频
-			a.sidebar-slides.btn(href="#", target="blank") 下载幻灯片
+			a.sidebar-slides(href="#", target="blank") 下载幻灯片
 		footer
 			a.sidebar-about(href="#") A Bulblor Labs Product
 
-	div
-		pre#editor= lesson.data
+	section#editor-panels
+			ul.nav.nav-tabs
+				li.active
+					a(data-target="#tab-pane-1") helloworld.c
+				li
+					a(data-target="#tab-pane-2") whatsyourname.c
+			.tab-content
+				.tab-pane.fade.active.in#tab-pane-1
+					.editor= lesson.data
+				.tab-pane.fade#tab-pane-2
+					.editor= lesson.data
 
+			button.btn.btn-default#compile 编译
+			button.btn.btn-primary#run 运行
+
+	section#output-panels
+			ul.nav.nav-tabs
+				li.active
+					a(data-target="console") 控制台
+			.tab-content
+				.tab-pane.fade.active.in#console
+					p >gcc helloworld.c
 	script(type="text/javascript", src="/javascripts/lib/ace.js")
 	script(type="text/javascript", src="/javascripts/lib/ext-modelist.js")
 	script(type='text/javascript').
-		var editor = ace.edit("editor");
-		editor.setTheme("ace/theme/chrome");
-		var modelist = require('ace/ext/modelist');
-		var mode = modelist.getModeForPath("#{lesson.file}")
-		console.log(mode.mode)
-		editor.getSession().setMode(mode.mode);
-		editor.resize()
+		$(".nav-tabs a").click(function (e) {
+			$(this).tab('show')
+		})
+		$(".editor").each(function(index) {
+			var editor = ace.edit(this);
+			editor.setTheme("ace/theme/chrome");
+			var modelist = require('ace/ext/modelist');
+			var mode = modelist.getModeForPath("#{lesson.file}")
+			editor.getSession().setMode(mode.mode);
+			editor.setFontSize(14)
+		});
+		
