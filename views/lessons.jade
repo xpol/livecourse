@@ -6,13 +6,8 @@ block content
 	section#sidebar
 		nav#sidebar-nav
 			h2 C语言：基础功能
-			.list-group
-				a.list-group-item.active(href="#") Hello World!
-				a.list-group-item(href="#") What's your name?
-				a.list-group-item(href="#") Let's compute!
-				a.list-group-item(href="#") If statements
-				a.list-group-item(href="#") Loops in C
-				a.list-group-item(href="#") Switch case
+			.list-group#titles
+				
 		#sidebar-controls
 			a.sidebar-rewatch(href="#") 观看教学视频
 			a.sidebar-slides(href="#", target="blank") 下载幻灯片
@@ -20,17 +15,16 @@ block content
 			a.sidebar-about(href="#") A Bulblor Labs Product
 
 	section#editor-panels
-			ul.nav.nav-tabs
-				li.active
-					a(data-target="#tab-pane-1") helloworld.c
-				li
-					a(data-target="#tab-pane-2") whatsyourname.c
-			.tab-content
-				.tab-pane.fade.active.in#tab-pane-1
-					.editor= lesson.data
-				.tab-pane.fade#tab-pane-2
-					.editor= lesson.data
-
+			ul.nav.nav-tabs#editor-tabs
+				//-li.active
+				//-	a(data-target="#editor-buffer-00") title.c
+				//-li
+				//-	a(data-target="#editor-buffer-01") title.h
+			.tab-content#editor-buffers
+				//-#editor-buffer-00.tab-pane.fade.active.in
+				//-	.editor #include &lt;stdio.h&gt;
+				//-#editor-buffer-01.tab-pane.fade.active.in
+				//-	.editor #include &lt;stdlib.h&gt;
 			button.btn.btn-default#compile 编译
 			button.btn.btn-primary#run 运行
 
@@ -44,15 +38,33 @@ block content
 	script(type="text/javascript", src="/javascripts/lib/ace.js")
 	script(type="text/javascript", src="/javascripts/lib/ext-modelist.js")
 	script(type='text/javascript').
-		$(".nav-tabs a").click(function (e) {
-			$(this).tab('show')
-		})
+		var exercises = JSON.parse( !{JSON.stringify(exedb)} );
+		// sidebar titles 
+		for (var i=0;i<exercises.length;++i)
+			$('#titles').append("<a class=\"list-group-item\", data-target=\""+i+"\">"+exercises[i].title+"</a>")
+
+		$('#titles :first-child').addClass('active')
+
+		// editors
+		var files = exercises[0].files
+		for (var i=0;i <files.length; i++){
+			var file = files[i]
+			console.log(file.initial_value)
+			var id = "editor-buffer-"+i
+			$('#editor-tabs').append("<li><a data-target=\"#"+id+"\">"+file.name+"</a></li>")
+			$('#editor-buffers').append(
+				"<div id=\""+id+"\" class=\"tab-pane fade\"><div class=\"editor\">"+file.initial_value+"</div></div>"
+			)
+		}
+		$('#editor-tabs :first-child').addClass('active')
+		$('#editor-buffers :first-child').addClass('active in')
+		$(".nav-tabs a").click(function(e) {$(this).tab('show')})
+
 		$(".editor").each(function(index) {
 			var editor = ace.edit(this);
 			editor.setTheme("ace/theme/chrome");
 			var modelist = require('ace/ext/modelist');
-			var mode = modelist.getModeForPath("#{lesson.file}")
+			var mode = modelist.getModeForPath(files[index].name)
 			editor.getSession().setMode(mode.mode);
-			editor.setFontSize(14)
+			editor.setFontSize(14);
 		});
-		
