@@ -1,6 +1,5 @@
 var fs = require('fs')
 var index = require('./index')
-var lessons = JSON.parse(fs.readFileSync('db/lessons/all.json'))
 
 
 /*
@@ -8,16 +7,24 @@ var lessons = JSON.parse(fs.readFileSync('db/lessons/all.json'))
  */
 
 exports.index = function(req, res){
-  var id = req.params.course
-  console.log("handling lessons for course "+id)
+  var id = req.param("course")
+  var filename = 'db/lessons/'+id+'.json'
+
+  fs.readFile(filename, function(err, data){
+  	if (err)
+  	{
+  		res.status(404).send('Course Not Found!');
+  		return;
+  	}
+  	try{
+		  	var exercises = JSON.parse(data).exercises
+  	}
+  	catch (e){
+  		res.status(500).send("Internal error");
+  		return;
+  	}
+  	res.render('lessons', { path:'/lessons', exedb:JSON.stringify(exercises) });
+  })
   
-  var lesson = lessons.all[1]
-  
-  fs.readFile('db/lessons/'+lesson.file, function(err, data){
-    console.log("Lading lesson file: " + lesson.file);
-    if (err) throw err;
-    lesson.data = data
-    res.render('lessons', { path:'/lessons', course:id, lesson:lesson });
-  }); 
 };
 

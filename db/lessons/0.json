@@ -1,0 +1,48 @@
+{
+  "exercises": [
+    {
+      "title": "Hello World!",
+      "instructions": "修改程序，使程序输出<code>Hello C language</code>。\n",
+      "files":[
+        {
+          "name":"main.c",
+          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(int argc, const char* argv)\n{\n\n\tprintf(\"Hello World!\\n\");\n\treturn 0;\n}\n"
+        },
+        {
+          "name":"main.h",
+          "initial_value": "extern int main(int argc, const char* argv);\n\n"
+        }
+      ]
+    },
+    {
+      "title": "创建变量",
+      "instructions": "创建一个名叫`firstName`的变量。在编辑窗口中输入你的名字（不包括姓）。",
+      "files":[
+        {
+          "name":"main.c",
+          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(int argc, const char* argv)\n{\n\n\tconst char* firstName = \"/*//这里输入你的名字//*/\";\n\treturn 0;\n}\n"
+        }
+      ]
+    },
+    {
+      "title": "格式化输出",
+      "instructions": "格式化输出……",
+      "files":[
+        {
+          "name":"main.c",
+          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(int argc, const char* argv)\n{\n\n\tconst char* firstName = \"XXXXX\";\n\tprintf(\"Hello %s!\\n\", /*//这里输入名字的变量//*/);\n\treturn 0;\n}\n"
+        }
+      ]
+    },
+    {
+      "title": "两个占位符",
+      "instructions": "两个占位符……",
+      "files":[
+        {
+          "name":"main.c",
+          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(int argc, const char* argv)\n{\n\n\tconst char* firstName = \"XXXXX\";\n\tconst char* lastName = \"/*//这里输入你的姓//*/\";\n\tprintf(\"%s %s!\\n\", /*//这里输入姓的变量//*/, /*//这里输入名的变量//*/);\n\treturn 0;\n}\n"
+        }
+      ]
+    }
+  ]
+}
