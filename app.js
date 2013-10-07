@@ -9,6 +9,7 @@ var college = require('./routes/college');
 var branch = require('./routes/branch');
 var course = require('./routes/course');
 var lesson = require('./routes/lesson');
+var build = require('./routes/build')
 var http = require('http');
 var path = require('path');
 
@@ -39,6 +40,7 @@ app.get('/branches', branch.index);
 app.get('/courses', course.index);
 app.get('/lessons', lesson.index);
 app.get('/about', routes.about)
+app.post('/build', build.gcc)
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
