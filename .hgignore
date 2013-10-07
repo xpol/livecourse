@@ -1,0 +1,4 @@
+syntax: regexp
+^node_modules/
+syntax: glob
+npm-debug.log
