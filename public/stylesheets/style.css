@@ -69,6 +69,11 @@ h2 { font-size: 20px;}
 #console
 {
 	height: 500px;
+	background-color: black;
+}
+
+#console pre {
+	border-style: none;
 	font-family: Monaco;
 	background-color: black;
 	color: gray;

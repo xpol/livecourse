@@ -7,10 +7,6 @@
         {
           "name":"main.c",
           "initial_value": "#include &lt;stdio.h&gt;\n\nint main(int argc, const char* argv)\n{\n\n\tprintf(\"Hello World!\\n\");\n\treturn 0;\n}\n"
-        },
-        {
-          "name":"main.h",
-          "initial_value": "extern int main(int argc, const char* argv);\n\n"
         }
       ]
     },

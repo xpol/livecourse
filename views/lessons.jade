@@ -25,7 +25,7 @@ block content
 				//-	.editor #include &lt;stdio.h&gt;
 				//-#editor-buffer-01.tab-pane.fade.active.in
 				//-	.editor #include &lt;stdlib.h&gt;
-			button.btn.btn-default#compile 编译
+			// button.btn.btn-default#compile 编译
 			button.btn.btn-primary#run 运行
 
 	section#output-panels
@@ -34,11 +34,13 @@ block content
 					a(data-target="console") 控制台
 			.tab-content
 				.tab-pane.fade.active.in#console
-					p >gcc helloworld.c
+					pre >gcc helloworld.c
 	script(type="text/javascript", src="/javascripts/lib/ace.js")
 	script(type="text/javascript", src="/javascripts/lib/ext-modelist.js")
 	script(type='text/javascript').
 		var exercises = JSON.parse( !{JSON.stringify(exedb)} );
+		var sources = []
+
 		// sidebar titles 
 		for (var i=0;i<exercises.length;++i)
 			$('#titles').append("<a class=\"list-group-item\", data-target=\""+i+"\">"+exercises[i].title+"</a>")
@@ -49,17 +51,18 @@ block content
 		var files = exercises[0].files
 		for (var i=0;i <files.length; i++){
 			var file = files[i]
-			console.log(file.initial_value)
 			var id = "editor-buffer-"+i
+			sources.push({name:file.name})
 			$('#editor-tabs').append("<li><a data-target=\"#"+id+"\">"+file.name+"</a></li>")
 			$('#editor-buffers').append(
 				"<div id=\""+id+"\" class=\"tab-pane fade\"><div class=\"editor\">"+file.initial_value+"</div></div>"
 			)
 		}
+		console.log(sources)
 		$('#editor-tabs :first-child').addClass('active')
 		$('#editor-buffers :first-child').addClass('active in')
 		$(".nav-tabs a").click(function(e) {$(this).tab('show')})
-
+		var editors = []
 		$(".editor").each(function(index) {
 			var editor = ace.edit(this);
 			editor.setTheme("ace/theme/chrome");
@@ -67,4 +70,15 @@ block content
 			var mode = modelist.getModeForPath(files[index].name)
 			editor.getSession().setMode(mode.mode);
 			editor.setFontSize(14);
+			editors.push(editor)
+		});
+
+		$('#run').click(function()
+		{
+			for (var i = 0; i < sources.length; i++) {
+				sources[i].content = editors[i].getSession().getValue()
+			}
+			$.post('/build', {sources:sources}, function(res){
+				$('#console').children('pre').text(res.outputs)
+			})
 		});
