@@ -28,48 +28,32 @@ h2 { font-size: 20px;}
 }
 
 
-
-#sidebar {
-	float:left;
-	width: 200px;
-	background-color: rgba(239,247,252,0.3);
+#exercises {
 }
-
-
-#sidebar-controls a {
-	width: 60px;
-	text-align: center;
-	vertical-align: baseline;
-}
-
-#sidebar footer {
-	bottom: 0;
-	position: absolute;
-}
-
 #editor-panels {
-	float: left;
-	width: 40%;
+	
 }
 
 .editor { 
-    height: 500px;
+    height: 300px;
     min-width: 350px;
     font-family: Monaco;
 }
 
+#exercise-links{
+	width: 100%;
+	padding-right: 80px;
+	padding-left: 80px;
+}
 #output-panels {
-	float: right;
-	width: 42%;
-	margin: 0 2% 0 0;
-	display: inline;
-
+	
 }
 
 #console
 {
-	height: 500px;
+	height: 300px;
 	background-color: black;
+	overflow:scroll;
 }
 
 #console pre {

@@ -3,49 +3,37 @@ extends layout
 block content
 	h1= title
 
-	section#sidebar
-		nav#sidebar-nav
-			h2 C语言：基础功能
-			.list-group#titles
-				
-		#sidebar-controls
-			a.sidebar-rewatch(href="#") 观看教学视频
-			a.sidebar-slides(href="#", target="blank") 下载幻灯片
-		footer
-			a.sidebar-about(href="#") A Bulblor Labs Product
+	#instructions.col-sm-12.col-md-6
 
-	section#editor-panels
-			ul.nav.nav-tabs#editor-tabs
-				//-li.active
-				//-	a(data-target="#editor-buffer-00") title.c
-				//-li
-				//-	a(data-target="#editor-buffer-01") title.h
-			.tab-content#editor-buffers
-				//-#editor-buffer-00.tab-pane.fade.active.in
-				//-	.editor #include &lt;stdio.h&gt;
-				//-#editor-buffer-01.tab-pane.fade.active.in
-				//-	.editor #include &lt;stdlib.h&gt;
-			// button.btn.btn-default#compile 编译
-			button.btn.btn-primary#run 编译运行
+	#exercises.col-sm-12.col-md-6
+		#editor-panels
+				ul#editor-tabs.nav.nav-tabs
+				#editor-buffers.tab-content
 
-	section#output-panels
+		#exercise-links.btn-toolbar
+			.btn-group
+				button.btn.btn-default 提示
+
+			.btn-group.pull-right
+				button#commit.btn.btn-success(title="修改代码后再尝试提交") 提交
+				button.btn.btn-default 下一个
+
+		#output-panels
 			ul.nav.nav-tabs
 				li.active
 					a(data-target="console") 控制台
 			.tab-content
 				.tab-pane.fade.active.in#console
-					pre >
+					pre
 	script(type="text/javascript", src="/javascripts/lib/ace.js")
 	script(type="text/javascript", src="/javascripts/lib/ext-modelist.js")
 	script(type='text/javascript').
 		var exercises = JSON.parse( !{JSON.stringify(exedb)} );
 		var sources = []
-
-		// sidebar titles 
-		for (var i=0;i<exercises.length;++i)
-			$('#titles').append("<a class=\"list-group-item\", data-target=\""+i+"\">"+exercises[i].title+"</a>")
-
-		$('#titles :first-child').addClass('active')
+		// 
+		$('#instructions')
+			.append('<h1>'+exercises[0].title+'</h1>')
+			.append(exercises[0].instructions)
 
 		// editors
 		var current = 0 // current editor index
@@ -62,29 +50,35 @@ block content
 
 		$('#editor-tabs :first-child').addClass('active')
 		$('#editor-buffers :first-child').addClass('active in')
-		$(".nav-tabs a").click(function(e) {
+		$(".nav-tabs a").click(function(e){
 			$(this).tab('show');
 			current = $(this).attr('data-target').match(/\d+/);
 		})
 		var editors = []
-		$(".editor").each(function(index) {
+		$(".editor").each(function(index){
 			var editor = ace.edit(this);
 			editor.setTheme("ace/theme/chrome");
 			var modelist = require('ace/ext/modelist');
 			var mode = modelist.getModeForPath(files[index].name)
 			editor.getSession().setMode(mode.mode);
 			editor.setFontSize(14);
-			editors.push(editor)
+			editor.setShowPrintMargin(false);
+			editors.push(editor);
 		});
 
-		$('#run').click(function()
-		{
-			console.log(current)
+		var posted = false;
+		$('#commit').click(function(){
+			if (posted)
+				return;
+			console.log("Post...");
+			posted = true;
+				
 			editors[current].focus();
-			for (var i = 0; i < sources.length; i++) {
+			for (var i = 0; i < sources.length; i++){
 				sources[i].content = editors[i].getSession().getValue()
 			}
 			$.post('/build', {sources:sources}, function(res){
-				$('#console').children('pre').text(res.outputs)
+				$('#console pre').append(res.outputs);
+				posted = false;
 			})
 		});
