@@ -20,7 +20,7 @@ exports.index = function(req, res){
 		  	var exercises = JSON.parse(data).exercises
   	}
   	catch (e){
-  		res.status(500).send("Internal error");
+  		res.status(500).send("Internal error" + e);
   		return;
   	}
   	res.render('lessons', { path:'/lessons', exedb:JSON.stringify(exercises) });

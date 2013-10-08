@@ -2,11 +2,11 @@
   "exercises": [
     {
       "title": "Hello World!",
-      "instructions": "修改程序，使程序输出<code>Hello C language</code>。\n",
+      "instructions": "修改程序，使程序输出<code>Hello Java!</code>。\n",
       "files":[
         {
-          "name":"main.c",
-          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(int argc, const char* argv)\n{\n\n\tprintf(\"Hello World!\\n\");\n\treturn 0;\n}\n"
+          "name":"Hello.java",
+          "initial_value": "public class Hello {\n\tpublic static void main(String args[]) {\n\t\tSystem.out.println(\"Hello World!\");\n\t}\n}\n"
         }
       ]
     },
@@ -16,7 +16,7 @@
       "files":[
         {
           "name":"main.c",
-          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(int argc, const char* argv)\n{\n\n\tconst char* firstName = \"/*//这里输入你的名字//*/\";\n\treturn 0;\n}\n"
+          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(int argc, const char* argv)\n{\n\tconst char* firstName = \"/*//这里输入你的名字//*/\";\n\treturn 0;\n}\n"
         }
       ]
     },
@@ -26,7 +26,7 @@
       "files":[
         {
           "name":"main.c",
-          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(int argc, const char* argv)\n{\n\n\tconst char* firstName = \"XXXXX\";\n\tprintf(\"Hello %s!\\n\", /*//这里输入名字的变量//*/);\n\treturn 0;\n}\n"
+          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(int argc, const char* argv)\n{\n\tconst char* firstName = \"XXXXX\";\n\tprintf(\"Hello %s!\\n\", /*//这里输入名字的变量//*/);\n\treturn 0;\n}\n"
         }
       ]
     },
@@ -36,7 +36,7 @@
       "files":[
         {
           "name":"main.c",
-          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(int argc, const char* argv)\n{\n\n\tconst char* firstName = \"XXXXX\";\n\tconst char* lastName = \"/*//这里输入你的姓//*/\";\n\tprintf(\"%s %s!\\n\", /*//这里输入姓的变量//*/, /*//这里输入名的变量//*/);\n\treturn 0;\n}\n"
+          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(int argc, const char* argv)\n{\n\tconst char* firstName = \"XXXXX\";\n\tconst char* lastName = \"/*//这里输入你的姓//*/\";\n\tprintf(\"%s %s!\\n\", /*//这里输入姓的变量//*/, /*//这里输入名的变量//*/);\n\treturn 0;\n}\n"
         }
       ]
     }

@@ -39,8 +39,8 @@ app.get('/colleges', college.index);
 app.get('/branches', branch.index);
 app.get('/courses', course.index);
 app.get('/lessons', lesson.index);
-app.get('/about', routes.about)
-app.post('/build', build.gcc)
+app.get('/about', routes.about);
+app.post('/build', build.index);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
