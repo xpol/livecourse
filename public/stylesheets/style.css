@@ -49,7 +49,7 @@ h2 { font-size: 20px;}
 
 #editor-panels {
 	float: left;
-	width: 45%;
+	width: 40%;
 }
 
 .editor { 
@@ -60,7 +60,7 @@ h2 { font-size: 20px;}
 
 #output-panels {
 	float: right;
-	width: 37%;
+	width: 42%;
 	margin: 0 2% 0 0;
 	display: inline;
 
