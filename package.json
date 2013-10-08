@@ -8,6 +8,8 @@
   "dependencies": {
     "express": "3.4.0",
     "jade": "*",
-    "temp": "*"
+    "log4js":"*",
+    "temp": "*",
+    "rimraf": "*"
   }
 }

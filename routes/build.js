@@ -1,32 +1,39 @@
-var spawn = require("child_process").spawn;
 var fs = require('fs');
 var path = require('path');
+var rimraf = require('rimraf')
+var spawn = require("child_process").spawn;
+var temp = require("temp");
+var log4js = require('log4js');
+var logger = log4js.getLogger();
+logger.setLevel('ERROR');
+
+temp.track();
 
 var conf = {
 	".java" : {
-		compiler:{
+		compile:{
 			name:'javac',
-			options:function(filename) {
+			options:function(filename){
 				return ['-J-Dfile.encoding=utf8', filename];
 			}
 		},
-		runner:{
+		run:{
 			name:'java',
-			options:function(filename) {
+			options:function(filename){
 				return ['-Dfile.encoding=utf8', filename.replace(/\.java$/, '')];
 			}
 		}
 	},
 	".c" : {
-		compiler:{
+		compile:{
 			name:'gcc',
-			options:function(filename) {
+			options:function(filename){
 				return [filename];
 			}
 		},
-		runner:{
+		run:{
 			name:'a.exe',
-			options:function(filename) {
+			options:function(filename){
 				return [];
 			}
 		}
@@ -36,50 +43,56 @@ var conf = {
 exports.index = function(req, res){
 	// currently only one source file is supported.
 	var single = req.body.sources[0]
-	// console.log("Compiling "+single.name+'...')
+	logger.debug("Compiling "+single.name+'...')
 	var cfg = conf[path.extname(single.name)]
 	if (!cfg){
 		res.send('No suitable compiler found for '+single.name);
 		return;		
 	}
 
-	function run(exe, args, callback){
-		console.log(exe, args)
-		var p = spawn(exe, args)
-		var lines = ''
+	var lines = ''
+
+	temp.mkdir('lbd', function(err, dirPath){
+		var cwd = path.join(dirPath);
+		console.debug('Created:'+cwd)
+
+		function execute(exe, args, callback){
+			logger.debug(exe, args)
+			var p = spawn(exe, args, { cwd:cwd})
 		
-		function parse(data) {
-			lines = lines+data
+			function parse(data){
+				lines = lines+data
+			}
+
+			p.stdout.on('data', parse);
+			p.stderr.on('data', parse);
+
+			p.on('close', function(code){
+				callback(code);
+			});
 		}
 
-		p.stdout.on('data', parse);
-		p.stderr.on('data', parse);
+		function end(){
+			// send outputs
+			res.send({outputs:lines});
+			// cleaup temp dir.
+			rimraf(cwd, function(){logger.debug('Removed:'+cwd)});
+		}
 
-		p.on('close', function(code){
-			callback(code, lines, res);
+
+		function postCompile (code){
+			if (code !== 0)
+				return end();
+
+			logger.debug('Running '+cfg.run.name)
+			execute(cfg.run.name, cfg.run.options(single.name), end);
+		}
+
+		fs.writeFile(path.join(cwd, single.name), single.content, function (err){
+			if (err) throw err;
+			logger.debug('Compile ' + single.name)
+			execute(cfg.compile.name, cfg.compile.options(single.name), postCompile);
 		});
-	}
-
-
-
-	function postCompile (code, lines) {
-		if (code !== 0) {
-			res.send({outputs:lines});
-			return;
-		}
-
-		function postRun(code, runlines) {
-			lines = lines + runlines
-			res.send({outputs:lines});
-		}
-		console.log('Running '+cfg.runner.name)
-		run(cfg.runner.name, cfg.runner.options(single.name), postRun);
-	}
-
-	fs.writeFile(single.name, single.content, function (err) {
-		if (err) throw err;
-		console.log('Compile ' + single.name)
-		run(cfg.compiler.name, cfg.compiler.options(single.name), postCompile);
 	});
 };
 

@@ -12,8 +12,23 @@ var lesson = require('./routes/lesson');
 var build = require('./routes/build')
 var http = require('http');
 var path = require('path');
+var log4js = require('log4js');
 
 var app = express();
+
+log4js.configure({
+	replaceConsole: true,
+  appenders: [
+    { type: 'console' },
+    {
+      type: 'file',
+      filename: 'logs/access.log', 
+      maxLogSize: 1024,
+      backups:3,
+      category: 'normal' 
+    }
+  ]
+});
 
 // all environments
 app.set('port', process.env.PORT || 80);
@@ -23,8 +38,7 @@ app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
-//app.use(express.cookieParser());
-//app.use(express.session({secret: '1234567890QWERTY'}));
+app.use(log4js.connectLogger(log4js.getLogger('normal'), {level:log4js.levels.INFO, format:':method :url'}));
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -45,3 +59,4 @@ app.post('/build', build.index);
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
+
