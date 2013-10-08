@@ -12,10 +12,15 @@ var lesson = require('./routes/lesson');
 var build = require('./routes/build')
 var http = require('http');
 var path = require('path');
+var fs = require('fs')
 var log4js = require('log4js');
 
 var app = express();
 
+/*
+fs.stat('logs').mode
+fs.mkdirSync('logs')
+*/
 log4js.configure({
 	replaceConsole: true,
   appenders: [
