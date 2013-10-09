@@ -3,9 +3,7 @@ var path = require('path');
 var rimraf = require('rimraf')
 var spawn = require("child_process").spawn;
 var temp = require("temp");
-var log4js = require('log4js');
-var logger = log4js.getLogger();
-logger.setLevel('ERROR');
+var winston = require('winston');
 
 temp.track();
 
@@ -43,7 +41,7 @@ var conf = {
 exports.index = function(req, res){
 	// currently only one source file is supported.
 	var single = req.body.sources[0]
-	logger.debug("Compiling "+single.name+'...')
+	winston.info("Compiling "+single.name+'...')
 	var cfg = conf[path.extname(single.name)]
 	if (!cfg){
 		res.send('No suitable compiler found for '+single.name);
@@ -54,10 +52,10 @@ exports.index = function(req, res){
 
 	temp.mkdir('lbd', function(err, dirPath){
 		var cwd = path.join(dirPath);
-		logger.debug('Created:'+cwd)
+		winston.debug('Created:'+cwd)
 
 		function execute(exe, args, callback){
-			logger.debug(exe, args)
+			winston.debug(exe, args)
 			var p = spawn(exe, args, { cwd:cwd})
 		
 			function parse(data){
@@ -76,7 +74,7 @@ exports.index = function(req, res){
 			// send outputs
 			res.send({outputs:lines});
 			// cleaup temp dir.
-			rimraf(cwd, function(){logger.debug('Removed:'+cwd)});
+			rimraf(cwd, function(){winston.debug('Removed:'+cwd)});
 		}
 
 
@@ -84,13 +82,13 @@ exports.index = function(req, res){
 			if (code !== 0)
 				return end();
 
-			logger.debug('Running '+cfg.run.name)
+			winston.debug('Running '+cfg.run.name)
 			execute(cfg.run.name, cfg.run.options(single.name), end);
 		}
 
 		fs.writeFile(path.join(cwd, single.name), single.content, function (err){
 			if (err) throw err;
-			logger.debug('Compile ' + single.name)
+			winston.debug('Compile ' + single.name)
 			execute(cfg.compile.name, cfg.compile.options(single.name), postCompile);
 		});
 	});
