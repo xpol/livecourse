@@ -30,6 +30,7 @@ block content
 	script(type="text/javascript", src="/javascripts/codemirror/lib/codemirror.js")
 	script(type="text/javascript", src="/javascripts/codemirror/addon/mode/loadmode.js")
 	script(type="text/javascript", src="/javascripts/codemirror/mode/meta.js")
+	script(type="text/javascript", src="/javascripts/jstween-1.1.min.js")
 	script(type='text/javascript').
 		var exercises = JSON.parse( !{JSON.stringify(exedb)} );
 		var mimelookup = {
@@ -104,6 +105,23 @@ block content
 			editors.push(editor);
 		});
 
+
+		(function($){
+			$.fn.typeWrite=function(s){
+				var o={content:$(this).text(),delay:5,t:this,i:0};
+				if(s){
+					$.extend(o,s);
+				}
+				o.t.text('');
+				var i=setInterval(function() {
+						o.t.text(o.t.text()+o.content.charAt(o.i++));
+						if(o.i==o.content.length){
+							clearInterval(i);
+						}
+				} ,o.delay);
+				return o.t;  
+			};
+		})(jQuery);
 		var posted = false;
 		$('#commit').click(function(){
 			if (posted)
@@ -116,7 +134,19 @@ block content
 			}
 
 			$.post('/build', {sources:sources}, function(res){
-				$('#console pre').append(res.outputs);
+				$('#console pre:last-child').removeClass('active').tween({
+					color:{
+						start: '#FFFFFF',
+						stop: '#7F7F7F',
+						time: 0,
+						duration: 0.25,
+						effect: 'easeInOut'
+					}
+				});
+				$.play();
+
+				$('#console').append('<pre class="active"></pre>');
+				$('#console pre:last-child').typeWrite({content:res.outputs})
 				posted = false;
-			})
+			});
 		});
