@@ -1,5 +1,5 @@
 extends layout
-
+	
 block content
 	h1= title
 
@@ -25,10 +25,48 @@ block content
 			.tab-content
 				.tab-pane.fade.active.in#console
 					pre
-	script(type="text/javascript", src="/javascripts/lib/ace.js")
-	script(type="text/javascript", src="/javascripts/lib/ext-modelist.js")
+	link(rel='stylesheet', href='/javascripts/codemirror/lib/codemirror.css', media="all")
+	link(rel='stylesheet', href='/javascripts/codemirror/theme/solarized.css', media="all")
+	script(type="text/javascript", src="/javascripts/codemirror/lib/codemirror.js")
+	script(type="text/javascript", src="/javascripts/codemirror/addon/mode/loadmode.js")
+	script(type="text/javascript", src="/javascripts/codemirror/mode/meta.js")
 	script(type='text/javascript').
 		var exercises = JSON.parse( !{JSON.stringify(exedb)} );
+		var mimelookup = {
+			".c":"text/x-csrc",
+			".h":"text/x-csrc",
+			".cpp":"text/x-c++src",
+			".hpp":"text/x-c++src",
+			".css":"text/css",
+			".java":"text/x-java",
+			".js":"text/javascript",
+			".json":"application/x-json",
+			".html":"text/html",
+			".md":"text/x-markdown",
+			".lua":"text/x-lua"
+		}
+
+		function getMode(filename)
+		{
+			var ext = /\.[^.\\/]+$/.exec(filename);
+			var mime = null
+			if (!ext)
+				return null
+
+			mime = mimelookup[ext]
+
+			if (!mime)
+				return null
+
+			for (var i = 0; i < CodeMirror.modeInfo.length; i++)
+			{
+				if (CodeMirror.modeInfo[i].mime == mime)
+					return CodeMirror.modeInfo[i];
+			}
+			return null
+		}
+
+
 		var sources = []
 		// 
 		$('#instructions')
@@ -44,7 +82,7 @@ block content
 			sources.push({name:file.name})
 			$('#editor-tabs').append("<li><a data-target=\"#"+id+"\">"+file.name+"</a></li>")
 			$('#editor-buffers').append(
-				"<div id=\""+id+"\" class=\"tab-pane fade\"><div class=\"editor\">"+file.initial_value+"</div></div>"
+				"<div id=\""+id+"\" class=\"tab-pane fade\"><textarea class=\"editor\">"+file.initial_value+"</textarea></div>"
 			)
 		}
 
@@ -55,14 +93,14 @@ block content
 			current = $(this).attr('data-target').match(/\d+/);
 		})
 		var editors = []
+		CodeMirror.modeURL = "/javascripts/codemirror/mode/%N/%N.js";
 		$(".editor").each(function(index){
-			var editor = ace.edit(this);
-			editor.setTheme("ace/theme/chrome");
-			var modelist = require('ace/ext/modelist');
-			var mode = modelist.getModeForPath(files[index].name)
-			editor.getSession().setMode(mode.mode);
-			editor.setFontSize(14);
-			editor.setShowPrintMargin(false);
+			var editor = CodeMirror.fromTextArea(this, {lineNumbers:true, theme:"solarized dark"});
+			var mi = getMode(files[index].name);
+			if (mi){
+				CodeMirror.autoLoadMode(editor, mi.mode);
+				editor.setOption('mode', mi.mime);
+			}
 			editors.push(editor);
 		});
 
@@ -70,13 +108,13 @@ block content
 		$('#commit').click(function(){
 			if (posted)
 				return;
-			console.log("Post...");
 			posted = true;
-				
-			editors[current].focus();
-			for (var i = 0; i < sources.length; i++){
-				sources[i].content = editors[i].getSession().getValue()
+
+			for (var i = 0; i < editors.length; i++)
+			{
+				sources[i].content = editors[i].getDoc().getValue()
 			}
+
 			$.post('/build', {sources:sources}, function(res){
 				$('#console pre').append(res.outputs);
 				posted = false;
