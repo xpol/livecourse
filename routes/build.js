@@ -54,7 +54,7 @@ exports.index = function(req, res){
 
 	temp.mkdir('lbd', function(err, dirPath){
 		var cwd = path.join(dirPath);
-		console.debug('Created:'+cwd)
+		logger.debug('Created:'+cwd)
 
 		function execute(exe, args, callback){
 			logger.debug(exe, args)
