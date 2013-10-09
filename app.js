@@ -13,27 +13,19 @@ var build = require('./routes/build')
 var http = require('http');
 var path = require('path');
 var fs = require('fs')
-var log4js = require('log4js');
+var winston = require('winston');
 
 var app = express();
 
-/*
-fs.stat('logs').mode
-fs.mkdirSync('logs')
-*/
-log4js.configure({
-	replaceConsole: true,
-  appenders: [
-    { type: 'console' },
-    {
-      type: 'file',
-      filename: 'logs/access.log', 
-      maxLogSize: 1024,
-      backups:3,
-      category: 'normal' 
+var winstonStream = {
+    write: function(message, encoding){
+        winston.info(message);
     }
-  ]
-});
+};
+winston
+  .remove(winston.transports.Console)
+  .add(winston.transports.Console, {colorize:true, silent:true, level:"silly"}) // Levels: silly/debug/verbose/info/warn/error
+  .add(winston.transports.File, {level:"info", json:false, filename:path.join(__dirname, 'logs/access.log'), timestamp:true})
 
 // all environments
 app.set('port', process.env.PORT || 80);
@@ -43,7 +35,7 @@ app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
-app.use(log4js.connectLogger(log4js.getLogger('normal'), {level:log4js.levels.INFO, format:':method :url'}));
+app.use(express.logger({stream:winstonStream, format: 'short'}));
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
