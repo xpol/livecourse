@@ -40,6 +40,19 @@ h2 { font-size: 20px;}
     font-family: Monaco;
 }
 
+
+.CodeMirror-widget {
+	background-color: rgb(213, 215, 217);
+	background-origin: padding-box;
+	border-radius: 20px;
+	color: rgb(0, 0, 0);
+	cursor: text;
+}
+
+.CodeMirror-widget.hilight {
+	background-color: #cb4b16;
+}
+
 #exercise-links{
 	width: 100%;
 	padding-right: 80px;
@@ -49,27 +62,34 @@ h2 { font-size: 20px;}
 	
 }
 
-#console
+#terminal
 {
 	height: 300px;
 	background-color: black;
 	overflow:auto;
 }
 
-#console pre {
-	border-style: none;
+#terminal pre {
 	font-family: Monaco;
 	background-color: black;
-	color: gray
-	font-weight: bold;
+	color: gray;
 	padding-top: 0px;
 	padding-bottom: 0px;
 	margin-bottom: 0px;
+	border-style: none;
+	border-radius: 0px;
+	border-top: 1px dashed darkgray;
 }
 
+#terminal pre:first-child {
+	border-top: 0px none;
+}
 
-#console pre.active {
-	border-radius: 0px;
-	border-top: 1px solid gray;
+#terminal pre.active {
 	color: white;
+}
+
+#terminal pre.active.black {
+	border-top: 0px none;
+	color: black;
 }
