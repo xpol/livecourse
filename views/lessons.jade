@@ -88,10 +88,13 @@ block content
 					if (e.findMarksAt(cursor.from()).length)
 						return;
 
-					var elt = createPlaceholderElement(e.getRange(cursor.from(), cursor.to()))
-					var tm = e.markText(cursor.from(), cursor.to(), {replacedWith: elt, clearOnEnter: true, lastRange:{}})
+					var span = createPlaceholderElement(e.getRange(cursor.from(), cursor.to()))
+					var tm = e.markText(cursor.from(), cursor.to(), {replacedWith: span, clearOnEnter: true, lastRange:{}})
 
-					CodeMirror.on(elt, "mousedown", function () {tm.clear()})
+					CodeMirror.on(span, "mousedown", function (e) {
+						e.preventDefault()
+						return tm.clear()
+					})
 
 					function unhide() {
 						var r = e.getRange(tm.lastRange.from, tm.lastRange.to)
