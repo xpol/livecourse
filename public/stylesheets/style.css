@@ -50,7 +50,31 @@ h2 { font-size: 20px;}
 }
 
 .CodeMirror-widget.hilight {
-	background-color: #cb4b16;
+	background-color: #b58900;
+}
+
+.CodeMirror-linewidget .keepwhitespaces {
+	white-space: pre;
+	tab-size:4;	
+}
+
+.CodeMirror-linewidget .error {
+	background: #a51e22;
+	text-shadow: none;/*#a51e22 0px 1px 0px;*/
+	color: #fff;
+	padding-left: 4px;
+	padding-right: 4px;
+	tab-size:4;
+}
+
+
+.CodeMirror-linewidget .warning {
+	background: #b58900;
+	text-shadow: none; /*#b58900 0px 1px 0px;*/
+	color: #fff;
+	padding-left: 4px;
+	padding-right: 4px;
+	tab-size:4;
 }
 
 #exercise-links{
