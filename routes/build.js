@@ -51,7 +51,7 @@ function gcc_scan(messages){
 var conf = {
 	".java" : {
 		compile:{
-			name:'javac',
+			cmd:'javac',
 			options:function(filename){
 				return [filename];
 			},
@@ -59,7 +59,7 @@ var conf = {
 			scan:javac_scan
 		},
 		run:{
-			name:'java',
+			cmd:'java',
 			options:function(filename){
 				return [filename.replace(/\.java$/, '')];
 			},
@@ -68,14 +68,14 @@ var conf = {
 	},
 	".c" : {
 		compile:{
-			name:'gcc',
+			cmd:'gcc',
 			options:function(filename){
 				return [filename];
 			},
 			scan:gcc_scan
 		},
 		run:{
-			name:'a.exe',
+			cmd:'a.exe',
 			options:function(filename){
 				return [];
 			}
@@ -86,10 +86,12 @@ var conf = {
 exports.index = function(req, res){
 	// currently only one source file is supported.
 	var single = req.body.sources[0]
-	winston.info("Compiling "+single.name+'...')
+	winston.debug("Compiling %s...", single.name)
 	var cfg = conf[path.extname(single.name)]
 	if (!cfg){
-		res.send('No suitable compiler found for '+single.name);
+		var e = 'No suitable compiler found for '+single.name
+		winston.debug(e)
+		res.send(e);
 		return;		
 	}
 
@@ -99,15 +101,18 @@ exports.index = function(req, res){
 	temp.mkdir('lbd', function(err, dirPath){
 		var cwd = path.join(dirPath);
 		winston.debug('Created:'+cwd)
+		function cleanup(){
+			rimraf(cwd, function(){winston.debug('Removed:'+cwd)});
+		}
 
 		function execute(action, filename, callback){
 			var args = action.options(filename)
-			var cmd = action.name + " " + args.join(" ")
+			var cmd = action.cmd + " " + args.join(" ")
 			winston.debug(cmd)
 			lines = lines + "\n>" + cmd + "\n"
 			if (action.hiddenOptions)
 				args = action.hiddenOptions.concat(args)
-			var p = spawn(action.name, args, { cwd:cwd})
+			var p = spawn(action.cmd, args, { cwd:cwd})
 
 			function collect(data){
 				lines = lines+data
@@ -116,16 +121,25 @@ exports.index = function(req, res){
 			p.stdout.on('data', collect);
 			p.stderr.on('data', collect);
 
+			p.on('error', function(e){
+				switch(e.code){
+					case 'ENOENT':
+						winston.error('Command Not Found: '+ action.cmd);
+						break;
+					default:
+						winston.error('Unexpected spawn error:' + e);
+				}
+				res.send(500);
+				cleanup();
+			})
 			p.on('close', function(code){
 				callback(code);
 			});
 		}
 
 		function end(){
-			// send outputs
 			res.send({outputs:lines, reports:reports});
-			// cleaup temp dir.
-			rimraf(cwd, function(){winston.debug('Removed:'+cwd)});
+			cleanup();
 		}
 
 
