@@ -33,7 +33,7 @@ block content
 	script(type="text/javascript", src="/javascripts/jquery-ui-1.10.3.custom.min.js")
 	script(type='text/javascript').
 		var exercises = JSON.parse( !{JSON.stringify(exedb)} );
-		var exercise = exercises[2]
+		//var exercise = exercises[2]
 		var mimelookup = {
 			".c":"text/x-csrc",
 			".h":"text/x-csrc",
@@ -126,112 +126,114 @@ block content
 			})
 		}
 
+		(function Course(exercise) {
+			var sources = []
+			// 
+			$('#instructions')
+				.append('<h1>'+exercise.title+'</h1>')
+				.append(exercise.instructions)
 
-		var sources = []
-		// 
-		$('#instructions')
-			.append('<h1>'+exercise.title+'</h1>')
-			.append(exercise.instructions)
-
-		// editors
-		var current = 0 // current editor index
-		var files = exercise.files
-		for (var i=0;i <files.length; i++){
-			var file = files[i]
-			var id = "editor-buffer-"+i
-			sources.push({name:file.name})
-			$('#editor-tabs').append("<li><a data-target=\"#"+id+"\">"+file.name+"</a></li>")
-			$('#editor-buffers').append(
-				"<div id=\""+id+"\" class=\"tab-pane fade\"><textarea class=\"editor\">"+file.initial_value+"</textarea></div>"
-			)
-		}
-
-		$('#editor-tabs :first-child').addClass('active')
-		$('#editor-buffers :first-child').addClass('active in')
-		$(".nav-tabs a").click(function(e){
-			$(this).tab('show');
-			current = $(this).attr('data-target').match(/\d+/);
-		})
-		var editors = []
-		CodeMirror.modeURL = "/javascripts/codemirror/mode/%N/%N.js";
-		$(".editor").each(function(index){
-			var editor = CodeMirror.fromTextArea(this, {lineNumbers:true, theme:"solarized dark"});
-
-			var mi = getMode(files[index].name);
-			if (mi){
-				CodeMirror.autoLoadMode(editor, mi.mode);
-				editor.setOption('mode', mi.mime);
+			// editors
+			var current = 0 // current editor index
+			var files = exercise.files
+			for (var i=0;i <files.length; i++){
+				var file = files[i]
+				var id = "editor-buffer-"+i
+				sources.push({name:file.name})
+				$('#editor-tabs').append("<li><a data-target=\"#"+id+"\">"+file.name+"</a></li>")
+				$('#editor-buffers').append(
+					"<div id=\""+id+"\" class=\"tab-pane fade\"><textarea class=\"editor\">"+file.initial_value+"</textarea></div>"
+				)
 			}
-			setupPlaceholders(editor);
-			editors.push(editor);
-		});
 
-		var posted = false;
-		var widgets = []
-		$('#commit').click(function(){
-			if (posted)
-				return;
-
-			// check if all widget have been filled.
-			$(".CodeMirror-widget").each(function(index){
-				$(this)
-					.addClass('hilight', 100)
-					.removeClass('hilight', 100)
-					.addClass('hilight', 100)
-					.removeClass('hilight', 100)
-					.addClass('hilight', 100)
-					.removeClass('hilight', 100)
-						;
+			$('#editor-tabs :first-child').addClass('active')
+			$('#editor-buffers :first-child').addClass('active in')
+			$(".nav-tabs a").click(function(e){
+				$(this).tab('show');
+				current = $(this).attr('data-target').match(/\d+/);
 			})
-			
-			if ($(".CodeMirror-widget").length > 0)
-				return;
+			var editors = []
+			CodeMirror.modeURL = "/javascripts/codemirror/mode/%N/%N.js";
+			$(".editor").each(function(index){
+				var editor = CodeMirror.fromTextArea(this, {lineNumbers:true, theme:"solarized dark"});
 
-			posted = true;
-
-			for (var i = 0; i < editors.length; i++)
-			{
-				sources[i].content = editors[i].getDoc().getValue()
-			}
-
-			// clean old build errors
-			for (var i = 0; i < widgets.length; ++i)
-				editors[0].removeLineWidget(widgets[i]);
-			widgets.length = 0;
-			$.post('/build', {sources:sources}, function(res){
-				var lastLine = -1
-				for (var file in res.reports) {
-					var issues = res.reports[file]
-					for (var i = 0; i < issues.length; i++){
-						var issue = issues[i];
-						if (issue.line == lastLine)
-							continue; // only first for this line is marked.
-						var div = document.createElement('div');
-						var span = div.appendChild(document.createElement('span'))
-						var anchor = editors[0].getLine(issue.line-1).substr(0, issue.ch-1).replace(/\S/g, ' ') + '^ '
-						span.appendChild(document.createTextNode(anchor));
-						div.appendChild(document.createTextNode(issue.message));
-						span.className = "keepwhitespaces";
-						div.className = issue.type
-						widgets.push(editors[0].addLineWidget(issue.line - 1, div, {coverGutter: false}));
-						lastLine = issue.line
-					}
+				var mi = getMode(files[index].name);
+				if (mi){
+					CodeMirror.autoLoadMode(editor, mi.mode);
+					editor.setOption('mode', mi.mime);
 				}
-
-				var terminal = $('#terminal')
-				function appendConsole() {
-					var lines = res.outputs.split(/\r\n|\r|\n/).length
-					terminal.append('<pre class="active black" data-lines="'+lines+'">'+res.outputs+'</pre>');
-					var s = terminal.prop("scrollHeight") - terminal.height()
-					terminal.animate({ scrollTop: s}, 300, function(){
-						terminal.children('pre:last-child').removeClass('black', 100);
-						posted = false;
-					});
-				}
-				var last = terminal.children('pre:last-child')
-				if (last.length > 0)
-					last.removeClass('active', last.data('lines')*100, appendConsole);
-				else
-					appendConsole();
+				setupPlaceholders(editor);
+				editors.push(editor);
 			});
-		});
+
+			var posted = false;
+			var widgets = []
+			$('#commit').click(function(){
+				if (posted)
+					return;
+
+				// check if all widget have been filled.
+				$(".CodeMirror-widget").each(function(index){
+					$(this)
+						.addClass('hilight', 100)
+						.removeClass('hilight', 100)
+						.addClass('hilight', 100)
+						.removeClass('hilight', 100)
+						.addClass('hilight', 100)
+						.removeClass('hilight', 100)
+							;
+				})
+				
+				if ($(".CodeMirror-widget").length > 0)
+					return;
+
+				posted = true;
+
+				for (var i = 0; i < editors.length; i++)
+				{
+					sources[i].content = editors[i].getDoc().getValue()
+				}
+
+				// clean old build errors
+				for (var i = 0; i < widgets.length; ++i)
+					editors[0].removeLineWidget(widgets[i]);
+				widgets.length = 0;
+				$.post('/build', {sources:sources}, function(res){
+					var lastLine = -1
+					for (var file in res.reports) {
+						var issues = res.reports[file]
+						for (var i = 0; i < issues.length; i++){
+							var issue = issues[i];
+							if (issue.line == lastLine)
+								continue; // only first for this line is marked.
+							var div = document.createElement('div');
+							var span = div.appendChild(document.createElement('span'))
+							var anchor = editors[0].getLine(issue.line-1).substr(0, issue.ch-1).replace(/\S/g, ' ') + '^ '
+							span.appendChild(document.createTextNode(anchor));
+							div.appendChild(document.createTextNode(issue.message));
+							span.className = "keepwhitespaces";
+							div.className = issue.type
+							widgets.push(editors[0].addLineWidget(issue.line - 1, div, {coverGutter: false}));
+							lastLine = issue.line
+						}
+					}
+
+					var terminal = $('#terminal')
+					function appendConsole() {
+						var lines = res.outputs.split(/\r\n|\r|\n/).length
+						terminal.append('<pre class="active black" data-lines="'+lines+'">'+res.outputs+'</pre>');
+						var s = terminal.prop("scrollHeight") - terminal.height()
+						terminal.animate({ scrollTop: s}, 300, function(){
+							terminal.children('pre:last-child').removeClass('black', 100);
+							posted = false;
+						});
+					}
+					var last = terminal.children('pre:last-child')
+					if (last.length > 0)
+						last.removeClass('active', last.data('lines')*100, appendConsole);
+					else
+						appendConsole();
+				});
+			});
+
+		})(exercises[0])
