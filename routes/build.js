@@ -61,7 +61,7 @@ var conf = {
 		run:{
 			name:'java',
 			options:function(filename){
-				return ['-Dfile.encoding=utf8', filename.replace(/\.java$/, '')];
+				return [filename.replace(/\.java$/, '')];
 			},
 			hiddenOptions:['-Dfile.encoding=utf8'],
 		}
