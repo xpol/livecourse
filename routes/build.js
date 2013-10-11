@@ -7,6 +7,10 @@ var winston = require('winston');
 
 temp.track();
 
+var errors_zhCN = {
+	'错误':'error',
+	'警告':'warning',
+}
 function javac_scan(messages){
 	var o = {}
 
@@ -19,6 +23,7 @@ function javac_scan(messages){
 			var file = r[1]
 			o[file] = o[file] || []
 			var ch = messages[i].length - 1
+			r[3] = errors_zhCN[r[3]] || r[3]
 			var err = {line:r[2], ch:ch, type:r[3], message:r[4]}
 			//if (/^\s+\^$/.test(messages[i]))
 				
@@ -48,15 +53,17 @@ var conf = {
 		compile:{
 			name:'javac',
 			options:function(filename){
-				return ['-J-Dfile.encoding=utf8', filename];
+				return [filename];
 			},
+			hiddenOptions:['-J-Dfile.encoding=utf8'],
 			scan:javac_scan
 		},
 		run:{
 			name:'java',
 			options:function(filename){
 				return ['-Dfile.encoding=utf8', filename.replace(/\.java$/, '')];
-			}
+			},
+			hiddenOptions:['-Dfile.encoding=utf8'],
 		}
 	},
 	".c" : {
@@ -93,18 +100,21 @@ exports.index = function(req, res){
 		var cwd = path.join(dirPath);
 		winston.debug('Created:'+cwd)
 
-		function execute(exe, args, callback){
-			var cmd = exe + " " + args.join(" ")
+		function execute(action, filename, callback){
+			var args = action.options(filename)
+			var cmd = action.name + " " + args.join(" ")
 			winston.debug(cmd)
 			lines = lines + "\n>" + cmd + "\n"
-			var p = spawn(exe, args, { cwd:cwd})
+			if (action.hiddenOptions)
+				args = action.hiddenOptions.concat(args)
+			var p = spawn(action.name, args, { cwd:cwd})
 
-			function parse(data){
+			function collect(data){
 				lines = lines+data
 			}
 
-			p.stdout.on('data', parse);
-			p.stderr.on('data', parse);
+			p.stdout.on('data', collect);
+			p.stderr.on('data', collect);
 
 			p.on('close', function(code){
 				callback(code);
@@ -125,13 +135,13 @@ exports.index = function(req, res){
 				return end();
 
 			winston.debug('Running '+cfg.run.name)
-			execute(cfg.run.name, cfg.run.options(single.name), end);
+			execute(cfg.run, single.name, end);
 		}
 
 		fs.writeFile(path.join(cwd, single.name), single.content, function (err){
 			if (err) throw err;
 			winston.debug('Compile ' + single.name)
-			execute(cfg.compile.name, cfg.compile.options(single.name), postCompile);
+			execute(cfg.compile, single.name, postCompile);
 		});
 	});
 };
