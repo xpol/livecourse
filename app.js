@@ -17,6 +17,10 @@ var winston = require('winston');
 
 var app = express();
 
+// log
+if (!fs.existsSync(path.join(__dirname, 'logs')))
+	fs.mkdirSync(path.join(__dirname, 'logs'))
+
 var winstonStream = {
     write: function(message, encoding){
         winston.info(message);
