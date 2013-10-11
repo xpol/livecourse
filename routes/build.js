@@ -7,13 +7,50 @@ var winston = require('winston');
 
 temp.track();
 
+function javac_scan(messages){
+	var o = {}
+
+	for (var i = 0; i < messages.length; i++)
+	{
+		var r = messages[i].match(/^([^:]+):(\d+): ([^:\s]+): (.+)$/)
+		if (r != null)
+		{
+			i += 2
+			var file = r[1]
+			o[file] = o[file] || []
+			var ch = messages[i].length - 1
+			var err = {line:r[2], ch:ch, type:r[3], message:r[4]}
+			//if (/^\s+\^$/.test(messages[i]))
+				
+			o[file].push(err)
+		}
+	}
+	return o
+}
+
+function gcc_scan(messages){
+	var o = {}
+	for (var i = 0; i < messages.length; i++)
+	{
+		var r = messages[i].match(/^([^:]+):(\d+):(\d+): ([^:]+): (.+)$/)
+		if (!r) continue;
+		if (r[4] === 'note') continue;
+		i += 2;
+		var file = r[1];
+		o[file] = o[file] || [];
+		o[file].push({line:r[2], ch:r[3], type:r[4], message:r[5]});
+	}
+	return o
+}
+
 var conf = {
 	".java" : {
 		compile:{
 			name:'javac',
 			options:function(filename){
 				return ['-J-Dfile.encoding=utf8', filename];
-			}
+			},
+			scan:javac_scan
 		},
 		run:{
 			name:'java',
@@ -27,7 +64,8 @@ var conf = {
 			name:'gcc',
 			options:function(filename){
 				return [filename];
-			}
+			},
+			scan:gcc_scan
 		},
 		run:{
 			name:'a.exe',
@@ -49,15 +87,18 @@ exports.index = function(req, res){
 	}
 
 	var lines = ''
+	var reports = {}
 
 	temp.mkdir('lbd', function(err, dirPath){
 		var cwd = path.join(dirPath);
 		winston.debug('Created:'+cwd)
 
 		function execute(exe, args, callback){
-			winston.debug(exe, args)
+			var cmd = exe + " " + args.join(" ")
+			winston.debug(cmd)
+			lines = lines + "\n>" + cmd + "\n"
 			var p = spawn(exe, args, { cwd:cwd})
-		
+
 			function parse(data){
 				lines = lines+data
 			}
@@ -72,13 +113,14 @@ exports.index = function(req, res){
 
 		function end(){
 			// send outputs
-			res.send({outputs:lines});
+			res.send({outputs:lines, reports:reports});
 			// cleaup temp dir.
 			rimraf(cwd, function(){winston.debug('Removed:'+cwd)});
 		}
 
 
 		function postCompile (code){
+			reports = cfg.compile.scan(lines.split(/\r\n|\n|\r/))
 			if (code !== 0)
 				return end();
 

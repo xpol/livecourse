@@ -68,7 +68,6 @@ block content
 			return null
 		}
 
-
 		function setupPlaceholders(e) {
 			var pattern = /\/\*\/\/[^*]*?\/\/\*\//;
 			var editor = e;
@@ -168,6 +167,7 @@ block content
 		});
 
 		var posted = false;
+		var widgets = []
 		$('#commit').click(function(){
 			if (posted)
 				return;
@@ -194,8 +194,30 @@ block content
 				sources[i].content = editors[i].getDoc().getValue()
 			}
 
-			var lastTop = 0
+			// clean old build errors
+			for (var i = 0; i < widgets.length; ++i)
+				editors[0].removeLineWidget(widgets[i]);
+			widgets.length = 0;
 			$.post('/build', {sources:sources}, function(res){
+				var lastLine = -1
+				for (var file in res.reports) {
+					var issues = res.reports[file]
+					for (var i = 0; i < issues.length; i++){
+						var issue = issues[i];
+						if (issue.line == lastLine)
+							continue; // only first for this line is marked.
+						var div = document.createElement('div');
+						var span = div.appendChild(document.createElement('span'))
+						var anchor = editors[0].getLine(issue.line-1).substr(0, issue.ch-1).replace(/\S/g, ' ') + '^ '
+						span.appendChild(document.createTextNode(anchor));
+						div.appendChild(document.createTextNode(issue.message));
+						span.className = "keepwhitespaces";
+						div.className = issue.type
+						widgets.push(editors[0].addLineWidget(issue.line - 1, div, {coverGutter: false}));
+						lastLine = issue.line
+					}
+				}
+
 				var terminal = $('#terminal')
 				function appendConsole() {
 					var lines = res.outputs.split(/\r\n|\r|\n/).length
