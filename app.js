@@ -63,6 +63,6 @@ app.get('/about', routes.about);
 app.post('/build', build.index);
 
 http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+  winston.info('Express server started, listening on port ' + app.get('port'));
 });
 
