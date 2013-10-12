@@ -97,6 +97,7 @@ window.Course = (function(){
 	function setupExercise(exercise) {
 		sources = []
 		editors = [] // empty old editors
+
 		// 
 		$('#instructions')
 			.empty()
@@ -139,7 +140,7 @@ window.Course = (function(){
 
 	}
 
-	function setupButtons(){
+	function setupButtons(exercises){
 			var posted = false;
 			var widgets = []
 			$('#commit').click(function(){
@@ -198,6 +199,11 @@ window.Course = (function(){
 						terminal.animate({ scrollTop: s}, 300, function(){
 							terminal.children('pre:last-child').removeClass('black', 100);
 							posted = false;
+							if (lastLine == -1) // still -1, means no errors...
+							{
+								var dialog = ((exercises.current + 1) == exercises.length) ? $('#dialog-alldone') : $('#dialog-done')
+								dialog.modal()
+							}
 						});
 					}
 					var last = terminal.children('pre:last-child')
@@ -208,13 +214,19 @@ window.Course = (function(){
 				});
 			});
 
-			$('#next').click(function(){
+			function next(){
+				$('#links-next').prop("disabled", true);
 				var n = exercises.current + 1
 				if (n == exercises.length)
-					return alert('恭喜你，你已经完成课程！')
-
+					return
 				exercises.current = n
 				setupExercise(exercises[n])
+			}
+
+			$('#links-next').click(next)
+			$('#dialog-done-next').click(next)
+			$('#dialog-done-stay').click(function(){
+				$('#links-next').prop("disabled", false);
 			})
 		}
 
