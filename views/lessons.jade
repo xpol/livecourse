@@ -16,7 +16,7 @@ block content
 
 			.btn-group.pull-right
 				button#commit.btn.btn-success(title="编译并运行代码") 提交
-				button.btn.btn-default 下一个
+				button#next.btn.btn-default 下一个
 
 		#output-panels
 			ul.nav.nav-tabs
@@ -34,4 +34,4 @@ block content
 	script(type="text/javascript", src="/javascripts/course.js")
 	script(type='text/javascript').
 		var exercises = JSON.parse(!{JSON.stringify(exedb)});
-		Course(exercises[0])
+		Course(exercises)
