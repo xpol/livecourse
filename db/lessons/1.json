@@ -12,11 +12,11 @@
     },
     {
       "title": "创建变量",
-      "instructions": "创建一个名叫`firstName`的变量。在编辑窗口中输入你的名字（不包括姓）。",
+      "instructions": "创建一个名叫`lastName`的变量。在编辑窗口中输入你的姓氏。",
       "files":[
         {
           "name":"main.c",
-          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(int argc, const char* argv)\n{\n\tconst char* firstName = \"/*//这里输入你的名字//*/\";\n\treturn 0;\n}\n"
+          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(int argc, const char* argv)\n{\n\tconst char* lastName = \"/*//输入你的姓氏//*/\";\n\treturn 0;\n}\n"
         }
       ]
     },
@@ -26,7 +26,7 @@
       "files":[
         {
           "name":"main.c",
-          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(int argc, const char* argv)\n{\n\tconst char* firstName = \"XXXXX\";\n\tprintf(\"Hello %s!\\n\", /*//这里输入名字的变量//*/);\n\treturn 0;\n}\n"
+          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(int argc, const char* argv)\n{\n\tconst char* lastName = \"XXXXX\";\n\tprintf(\"Hello %s!\\n\", /*//输入姓氏的变量//*/);\n\treturn 0;\n}\n"
         }
       ]
     },
@@ -36,7 +36,7 @@
       "files":[
         {
           "name":"main.c",
-          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(int argc, const char* argv)\n{\n\tconst char* firstName = \"XXXXX\";\n\tconst char* lastName = \"/*//这里输入你的姓//*/\";\n\tprintf(\"%s %s!\\n\", /*//这里输入姓的变量//*/, /*//这里输入名的变量//*/);\n\treturn 0;\n}\n"
+          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(int argc, const char* argv)\n{\n\tconst char* lastName = \"/*//输入你的姓姓氏//*/\";\n\tconst char* lastName = \"/*//输入你的名字//*/\";\n\tprintf(\"%s %s!\\n\", /*//输入姓的变量//*/, /*//输入名的变量//*/);\n\treturn 0;\n}\n"
         }
       ]
     }
