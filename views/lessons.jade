@@ -12,11 +12,11 @@ block content
 
 		#exercise-links.btn-toolbar
 			.btn-group
-				button.btn.btn-default 提示
+				button.btn.btn-default(disabled="disabled") 提示
 
 			.btn-group.pull-right
 				button#commit.btn.btn-success(title="编译并运行代码") 提交
-				button#next.btn.btn-default 下一个
+				button#links-next.gonext.next.btn.btn-default(disabled="disabled") 下一个
 
 		#output-panels
 			ul.nav.nav-tabs
@@ -24,6 +24,37 @@ block content
 					a(data-target="terminal") 控制台
 			.tab-content
 				.tab-pane.fade.active.in#terminal
+
+	// dialogs
+	#dialog-done.modal.fade(tabindex="-1", role="dialog", aria-labelledby="dialog-done-label", aria-hidden="true")
+		.modal-dialog
+			.modal-content
+				.modal-header
+					button(type="button", class="close", data-dismiss="modal", aria-hidden="true") &times;
+					h4.modal-title 练习完成
+				
+				.modal-body
+					做的好！已经完成这个练习。
+				
+				.modal-footer
+					button#dialog-done-stay.btn.btn-default(type="button", data-dismiss="modal") 停留
+					button#dialog-done-next.btn.btn-primary(type="button", data-dismiss="modal") 下一练习
+
+	#dialog-alldone.modal.fade(tabindex="-1", role="dialog", aria-labelledby="dialog-alldone-label", aria-hidden="true")
+		.modal-dialog
+			.modal-content
+				.modal-header
+					button(type="button", class="close", data-dismiss="modal", aria-hidden="true") &times;
+					h4.modal-title 课程完成
+				
+				.modal-body
+					p 已经完成整个课程的所有练习。
+					p 你可以回到首页查看其他课程。
+				
+				.modal-footer
+					button.btn.btn-primary(type="button", data-dismiss="modal", href="/") 首页
+					button.btn.btn-success(type="button", data-dismiss="modal") 好的
+
 	link(rel='stylesheet', href='/javascripts/codemirror/lib/codemirror.css', media="all")
 	link(rel='stylesheet', href='/javascripts/codemirror/theme/solarized.css', media="all")
 	script(type="text/javascript", src="/javascripts/codemirror/lib/codemirror.js")
@@ -33,5 +64,4 @@ block content
 	script(type="text/javascript", src="/javascripts/jquery-ui-1.10.3.custom.min.js")
 	script(type="text/javascript", src="/javascripts/course.js")
 	script(type='text/javascript').
-		var exercises = JSON.parse(!{JSON.stringify(exedb)});
-		Course(exercises)
+		Course(!{exedb})
