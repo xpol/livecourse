@@ -2,41 +2,46 @@
   "exercises": [
     {
       "title": "Hello World!",
-      "instructions": "修改程序，使程序输出<code>Hello C language</code>。\n",
+      "instructions": "修改程序，使程序输出你的名字。\n",
       "files":[
         {
           "name":"main.c",
-          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(int argc, const char* argv)\n{\n\tprintf(\"Hello World!\\n\");\n\treturn 0;\n}\n"
+          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(void)\n{\n\tprintf(\"Hello World!\\n\");\n\treturn 0;\n}\n"
         }
       ]
     },
     {
       "title": "创建变量",
-      "instructions": "创建一个名叫`lastName`的变量。在编辑窗口中输入你的姓氏。",
+      "instructions": "创建一个名叫`lastname`的变量。在编辑窗口中输入你的名字。",
       "files":[
         {
           "name":"main.c",
-          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(int argc, const char* argv)\n{\n\tconst char* lastName = \"/*//输入你的姓氏//*/\";\n\treturn 0;\n}\n"
+          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(void)\n{\n\tconst char* lastname = \"/*//输入你的姓//*/\";\n\treturn 0;\n}\n",
+          "captures":{
+            "lastname":"lastname[ \\t]*=[ \\t]*\"([^\\\"]+)\""
+          }
         }
       ]
     },
     {
       "title": "格式化输出",
-      "instructions": "格式化输出……",
+      "templates":true,
+      "instructions": "恭喜你，小{{lastname}}，你已经学会创建变量了。现在让我们来输出一个变量。",
       "files":[
         {
           "name":"main.c",
-          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(int argc, const char* argv)\n{\n\tconst char* lastName = \"XXXXX\";\n\tprintf(\"Hello %s!\\n\", /*//输入姓氏的变量//*/);\n\treturn 0;\n}\n"
+          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(void)\n{\n\tconst char* lastname = \"{{lastname}}\";\n\tprintf(\"你好小%s！\", /*//输入姓的变量//*/);\n\treturn 0;\n}\n"
         }
       ]
     },
     {
       "title": "两个占位符",
+      "templates":true,
       "instructions": "两个占位符……",
       "files":[
         {
           "name":"main.c",
-          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(int argc, const char* argv)\n{\n\tconst char* lastName = \"/*//输入你的姓姓氏//*/\";\n\tconst char* lastName = \"/*//输入你的名字//*/\";\n\tprintf(\"%s %s!\\n\", /*//输入姓的变量//*/, /*//输入名的变量//*/);\n\treturn 0;\n}\n"
+          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(void)\n{\n\tconst char* firstname = \"/*//输入你的名//*/\";\n\tconst char* lastname = \"{{lastname}}\";\n\tprintf(\"你好%s%s！\\n\", /*//输入姓的变量//*/, /*//输入名的变量//*/);\n\treturn 0;\n}\n"
         }
       ]
     }
