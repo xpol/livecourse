@@ -118,7 +118,7 @@ window.Course = (function(){
 			sources.push({name:file.name})
 			$('#editor-tabs')
 				.empty()
-				.append("<li><a data-target=\"#"+id+"\">"+file.name+"</a></li>")
+				.append('<li><a data-target="#'+id+'"><span class="tab-left" />'+file.name+'<span class="tab-right" /></a></li>')
 			var context = file.initial_value
 			if (exercise.templates){
 				console.log(captured)
@@ -129,7 +129,6 @@ window.Course = (function(){
 				.append("<div id=\""+id+"\" class=\"tab-pane fade\"><textarea class=\"editor\">"+context+"</textarea></div>")
 		}
 		
-
 		$('#editor-tabs :first-child').addClass('active')
 		$('#editor-buffers :first-child').addClass('active in')
 		$(".nav-tabs a").click(function(e){
