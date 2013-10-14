@@ -14,6 +14,7 @@ window.Course = (function(){
 	}
 	var editors = []
 	var sources = []
+	var captured = {}
 
 	function getMode(filename)
 	{
@@ -98,11 +99,15 @@ window.Course = (function(){
 		sources = []
 		editors = [] // empty old editors
 
-		// 
+		//
+		var instructions = exercise.instructions
+		if (exercise.templates)
+			instructions = $.mustache(instructions,captured)
+
 		$('#instructions')
 			.empty()
 			.append('<h1>'+exercise.title+'</h1>')
-			.append(exercise.instructions)
+			.append(instructions)
 
 		// editors
 		var current = 0 // current editor index
@@ -114,10 +119,16 @@ window.Course = (function(){
 			$('#editor-tabs')
 				.empty()
 				.append("<li><a data-target=\"#"+id+"\">"+file.name+"</a></li>")
+			var context = file.initial_value
+			if (exercise.templates){
+				console.log(captured)
+				context = $.mustache(context, captured)
+			}
 			$('#editor-buffers')
 				.empty()
-				.append("<div id=\""+id+"\" class=\"tab-pane fade\"><textarea class=\"editor\">"+file.initial_value+"</textarea></div>")
+				.append("<div id=\""+id+"\" class=\"tab-pane fade\"><textarea class=\"editor\">"+context+"</textarea></div>")
 		}
+		
 
 		$('#editor-tabs :first-child').addClass('active')
 		$('#editor-buffers :first-child').addClass('active in')
@@ -163,9 +174,23 @@ window.Course = (function(){
 					return;
 
 				posted = true;
-
+				var exercise = exercises[exercises.current]
 				for (var i = 0; i < editors.length; i++)
-					sources[i].content = editors[i].getDoc().getValue()
+				{
+					var content = editors[i].getDoc().getValue()
+					sources[i].content = content
+					var captures = exercise.files[i].captures
+					if (captures) {
+						for (var name in captures){
+							var regex = new RegExp(captures[name])
+							var m = content.match(regex)
+							if (m){
+								captured[name] = m[1];
+							}
+						}
+						console.log(captured)
+					}
+				}
 
 				// clean old build errors
 				for (var i = 0; i < widgets.length; ++i)
@@ -190,6 +215,7 @@ window.Course = (function(){
 							lastLine = issue.line
 						}
 					}
+					var noissue = (lastLine == -1) // still -1, means no errors...
 
 					var terminal = $('#terminal')
 					function appendConsole() {
@@ -199,7 +225,7 @@ window.Course = (function(){
 						terminal.animate({ scrollTop: s}, 300, function(){
 							terminal.children('pre:last-child').removeClass('black', 100);
 							posted = false;
-							if (lastLine == -1) // still -1, means no errors...
+							if (noissue)
 							{
 								var dialog = ((exercises.current + 1) == exercises.length) ? $('#dialog-alldone') : $('#dialog-done')
 								dialog.modal()
