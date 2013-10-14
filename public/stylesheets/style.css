@@ -12,21 +12,71 @@ h2 { font-size: 20px;}
 .navbar-brand {padding: 8px; }
 .row { margin-top: 5px; }
 
-.nav.nav-tabs li {margin-right: 2px;}
+.nav.nav-tabs {
+	height: 35px;
+	background-image: url(/images/tabset-background.png);
+	border-style: none;
+	padding-top: 7px;
+}
+.nav.nav-tabs li {
+	border-style: none;
+
+}
 .nav.nav-tabs li a {
 	padding: 4px 8px 4px 8px;
 	color:rgb(68, 66, 69);
-	background-color: rgb(163, 156, 159);
-	background-image: -webkit-linear-gradient(top, rgb(173, 167, 170), rgb(163, 156, 159));
 	cursor: pointer;
-}
-.nav.nav-tabs li.active a {
-	color: rgb(122, 178, 193);
-	background-color: rgb(255, 255, 255);
-	background-image: -webkit-linear-gradient(top, rgb(229, 240, 243), rgb(255, 255, 255));
-	cursor: default;
+	margin-right: 0px;
 }
 
+.nav.nav-tabs li.active:before
+{
+	content: "";
+	border-style: none;
+	width: 18px;
+	height: 26px;
+	background:url(/images/tab-active-margins.png) 0 -3px;
+	display: inline-block;
+	vertical-align:middle;
+}
+.nav.nav-tabs li.active:after
+{
+	content: "";
+	border-style: none;
+	width: 18px;
+	height: 26px;
+	background:url(/images/tab-active-margins.png) -24px -3px;
+	display: inline-block;
+	vertical-align:middle;
+}
+.nav.nav-tabs li.active a {
+	min-width: 80px;
+	border-radius: 0;
+	border-style: none;
+	height: 26px;
+	background:url(/images/tab-active.png) 0 -3px;
+	color: gray;
+	cursor: default;
+	display: inline-block;
+	vertical-align:middle;
+
+}
+
+.editor-statusbar
+{
+	padding-top: 4px;
+	height: 22px;
+	background:url(/images/status-bar-background.png);
+
+}
+
+.editor-statusbar span {
+	color: gray;
+	font-size: 12px;
+	padding-left: 20px;
+	padding-right: 20px;
+
+}
 
 #exercises {
 }
@@ -88,7 +138,7 @@ h2 { font-size: 20px;}
 
 #terminal
 {
-	height: 300px;
+	height: 200px;
 	background-color: black;
 	overflow:auto;
 }
@@ -116,4 +166,9 @@ h2 { font-size: 20px;}
 #terminal pre.active.black {
 	border-top: 0px none;
 	color: black;
+}
+
+#instructions {
+	height: 700px;
+	overflow: auto;
 }
