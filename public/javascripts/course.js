@@ -98,6 +98,8 @@ window.Course = (function(){
 	function setupExercise(exercise) {
 		sources = []
 		editors = [] // empty old editors
+		$('#editor-tabs').empty()
+		$('#editor-buffers').empty()
 
 		//
 		var instructions = exercise.instructions
@@ -110,33 +112,26 @@ window.Course = (function(){
 			.append(instructions)
 
 		// editors
-		var current = 0 // current editor index
 		var files = exercise.files
 		for (var i=0;i <files.length; i++){
 			var file = files[i]
 			var id = "editor-buffer-"+i
 			sources.push({name:file.name})
 			$('#editor-tabs')
-				.empty()
-				.append('<li><a data-target="#'+id+'"><span class="tab-left" />'+file.name+'<span class="tab-right" /></a></li>')
+				.append('<li><a data-target="#'+id+'">'+file.name+'</a></li>')
 			var context = file.initial_value
-			if (exercise.templates){
-				console.log(captured)
+			if (exercise.templates)
 				context = $.mustache(context, captured)
-			}
+
 			$('#editor-buffers')
-				.empty()
-				.append("<div id=\""+id+"\" class=\"tab-pane fade\"><textarea class=\"editor\">"+context+"</textarea></div>")
+				.append('<div id="'+id+'" class="tab-pane"><textarea>'+context+'</textarea></div>')
 		}
-		
-		$('#editor-tabs :first-child').addClass('active')
-		$('#editor-buffers :first-child').addClass('active in')
-		$(".nav-tabs a").click(function(e){
-			$(this).tab('show');
-			current = $(this).attr('data-target').match(/\d+/);
-		})
+
+		$('#editor-tabs > li:first-child').addClass('active')
+		$('#editor-buffers > div:first-child').addClass('active in')
+
 		CodeMirror.modeURL = "/javascripts/codemirror/mode/%N/%N.js";
-		$(".editor").each(function(index){
+		$("#editor-buffers > div > textarea").each(function(index){
 			var editor = CodeMirror.fromTextArea(this, {lineNumbers:true, theme:"solarized dark"});
 
 			var mi = getMode(files[index].name);
@@ -145,9 +140,15 @@ window.Course = (function(){
 				editor.setOption('mode', mi.mime);
 			}
 			setupPlaceholders(editor);
+			editor.refresh()
 			editors.push(editor);
 		});
 
+
+		$(".nav-tabs").on("click", "li", function() {
+		  $(this).children('a:first-child').tab('show');
+		  editors[$(this).index()].refresh();
+		});
 	}
 
 	function setupButtons(exercises){
@@ -187,7 +188,6 @@ window.Course = (function(){
 								captured[name] = m[1];
 							}
 						}
-						console.log(captured)
 					}
 				}
 
@@ -208,7 +208,7 @@ window.Course = (function(){
 							var anchor = editors[0].getLine(issue.line-1).substr(0, issue.ch-1).replace(/\S/g, ' ') + '^ '
 							span.appendChild(document.createTextNode(anchor));
 							div.appendChild(document.createTextNode(issue.message));
-							span.className = "keepwhitespaces";
+							span.className = "anchor";
 							div.className = issue.type
 							widgets.push(editors[0].addLineWidget(issue.line - 1, div, {coverGutter: false}));
 							lastLine = issue.line
