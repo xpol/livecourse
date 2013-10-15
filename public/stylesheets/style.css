@@ -12,6 +12,7 @@ h2 { font-size: 20px;}
 .navbar-brand {padding: 8px; }
 .row { margin-top: 5px; }
 
+
 .nav.nav-tabs {
 	height: 35px;
 	background-image: url(/images/tabset-background.png);
@@ -20,47 +21,70 @@ h2 { font-size: 20px;}
 }
 .nav.nav-tabs li {
 	border-style: none;
+	margin-right: -25px;
+}
 
+.nav.nav-tabs li.active {
+	z-index: 100;
 }
-.nav.nav-tabs li a {
-	padding: 4px 8px 4px 8px;
-	color:rgb(68, 66, 69);
-	cursor: pointer;
-	margin-right: 0px;
-}
+
 
 .nav.nav-tabs li.active:before
 {
-	content: "";
-	border-style: none;
-	width: 18px;
-	height: 26px;
-	background:url(/images/tab-active-margins.png) 0 -3px;
-	display: inline-block;
-	vertical-align:middle;
+	background:url(/images/tab-margins.png) 0 -3px;
 }
 .nav.nav-tabs li.active:after
+{
+	background:url(/images/tab-margins.png) -18px -3px;
+}
+.nav.nav-tabs li.active a{
+	background-origin: padding-box;
+	background:url(/images/tab-active.png) 0 -3px;
+}
+
+.nav.nav-tabs li.active a:hover {
+	border-style: none;
+	color: gray;
+}
+
+.nav.nav-tabs li:before
 {
 	content: "";
 	border-style: none;
 	width: 18px;
 	height: 26px;
-	background:url(/images/tab-active-margins.png) -24px -3px;
 	display: inline-block;
 	vertical-align:middle;
+	background:url(/images/tab-margins.png) 0 25px;
 }
-.nav.nav-tabs li.active a {
+.nav.nav-tabs li:after
+{
+	content: "";
+	border-style: none;
+	width: 18px;
+	height: 26px;
+	display: inline-block;
+	vertical-align:middle;
+	background:url(/images/tab-margins.png) -18px 25px;
+
+}
+.nav.nav-tabs li a {
 	min-width: 80px;
+	padding: 2px 8px 6px 8px;
+	color:rgb(68, 66, 69);
+	cursor: pointer;
+	margin-right: 0px;
 	border-radius: 0;
 	border-style: none;
 	height: 26px;
-	background:url(/images/tab-active.png) 0 -3px;
+	background:url(/images/tab-inactive.png) 0 -3px;
 	color: gray;
 	cursor: default;
 	display: inline-block;
 	vertical-align:middle;
-
 }
+
+
 
 .editor-statusbar
 {
@@ -75,7 +99,6 @@ h2 { font-size: 20px;}
 	font-size: 12px;
 	padding-left: 20px;
 	padding-right: 20px;
-
 }
 
 #exercises {
@@ -84,48 +107,15 @@ h2 { font-size: 20px;}
 	
 }
 
-.editor { 
-    height: 300px;
-    min-width: 350px;
-    font-family: Monaco;
-}
+.CodeMirror {height: 300px;min-width: 350px;}
 
+.CodeMirror-widget { background-color: rgb(213, 215, 217); background-origin: padding-box; border-radius: 20px; color: rgb(0, 0, 0); cursor: text;}
+.CodeMirror-widget.hilight {background-color: #b58900;}
 
-.CodeMirror-widget {
-	background-color: rgb(213, 215, 217);
-	background-origin: padding-box;
-	border-radius: 20px;
-	color: rgb(0, 0, 0);
-	cursor: text;
-}
-
-.CodeMirror-widget.hilight {
-	background-color: #b58900;
-}
-
-.CodeMirror-linewidget .keepwhitespaces {
-	white-space: pre;
-	tab-size:4;	
-}
-
-.CodeMirror-linewidget .error {
-	background: #a51e22;
-	text-shadow: none;/*#a51e22 0px 1px 0px;*/
-	color: #fff;
-	padding-left: 4px;
-	padding-right: 4px;
-	tab-size:4;
-}
-
-
-.CodeMirror-linewidget .warning {
-	background: #b58900;
-	text-shadow: none; /*#b58900 0px 1px 0px;*/
-	color: #fff;
-	padding-left: 4px;
-	padding-right: 4px;
-	tab-size:4;
-}
+.CodeMirror-linewidget {color: #fff;padding-left: 4px;padding-right: 4px;tab-size:4;text-shadow: none;}
+.CodeMirror-linewidget .error {background: #a51e22;}
+.CodeMirror-linewidget .warning {background: #b58900;}
+.CodeMirror-linewidget .anchor {white-space: pre;}
 
 #exercise-links{
 	width: 100%;
