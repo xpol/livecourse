@@ -162,3 +162,37 @@ h2 { font-size: 20px;}
 	height: 700px;
 	overflow: auto;
 }
+
+#instructions .exerciese {
+	border: 2px solid rgb(204, 204, 204);
+	margin-top: 2.5em;
+	padding: 1.5em;
+	position: relative;
+}
+
+#instructions .exerciese:before {
+	position: absolute;
+	color: rgb(204, 204, 204);
+	content: ">_";
+	background: gray;
+	border: 4px solid rgb(204, 204, 204);
+	margin: 4px;
+	padding: 2px;
+	font-size: 1em;
+	font-weight: bold;
+	font-family: "Lucida Console";
+	width: 28px;
+	height: 26px;
+	left: 10px;
+	top: -20px;
+}
+
+
+#instructions .exerciese:after {
+	position: absolute;
+	color: rgb(204, 204, 204);
+	bottom: 5px;
+	content: "任务";
+	font-size: 0.7em;
+	right: 10px;
+}

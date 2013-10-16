@@ -102,9 +102,7 @@ window.Course = (function(){
 		$('#editor-buffers').empty()
 
 		//
-		var instructions = exercise.instructions
-		if (exercise.templates)
-			instructions = $.mustache(instructions,captured)
+		var instructions = $.mustache(exercise.instructions,captured)
 
 		$('#instructions')
 			.empty()
@@ -119,9 +117,7 @@ window.Course = (function(){
 			sources.push({name:file.name})
 			$('#editor-tabs')
 				.append('<li><a data-target="#'+id+'">'+file.name+'</a></li>')
-			var context = file.initial_value
-			if (exercise.templates)
-				context = $.mustache(context, captured)
+			var context = $.mustache(file.initial_value, captured)
 
 			$('#editor-buffers')
 				.append('<div id="'+id+'" class="tab-pane"><textarea>'+context+'</textarea></div>')

@@ -2,46 +2,37 @@
   "exercises": [
     {
       "title": "Hello World!",
-      "instructions": "<p>自从Kernighan和Ritchie在《The C Programming Language》中第一个示例采用<code>Hello world</code>程序后，这一程序的相应版本在很多介绍语言的书和教程里面都采用这一例子。</p>\n<p>那么让我们来看一看这个具有传奇色彩的程序是什么样子的：</p>\n<pre><code class=\"C\">#include &lt;stdio.h&gt;\n\nint main(void)\n{\n    puts(&quot;Hello world&quot;);\n    return 0;\n}\n</code></pre>\n\n<p>猜一下这个程序的功能是什么。</p>\n<p class=\"exerciese\">好，现在在右边点击<kbd>运行</kbd>按钮，看看运行结果和你的猜想是不是一样的。</p>\n<p>是的，你可能猜对了，这个程序输出一条 <code>Hello world</code> 消息。</p>\n<h2 id=\"_1\">详细说明</h2>\n<p>我们来仔细看一下这个程序。</p>\n<h3 id=\"_2\">引入头文件</h3>\n<pre><code class=\"C\">#include &lt;stdio.h&gt;\n</code></pre>\n\n<p>该语句的作用是相当于你在文件中该行所在的位置键入了文件 <code>stdio.h</code> 的全部内容。\n事实上，它是一种拷贝和粘贴操作。</p>\n<p>这一功能是由预处理指令 <code>#include</code> 指示预处理器（Preprocessor）进行的。\n而执行这一预处理器任务的过程叫预处理（Preprocessing）。</p>\n<p><code>stdio.h</code> 是C语言标准库中的一部分，他它包含了有关输入和输出函数的信息以供编译器使用。\n通常向<code>stdio.h</code>这样的信息文件都放在程序代码源文件（<code>.c</code>）的头部，因此他们被称为头文件(header file)，\n并且按照习惯，都以<code>.h</code>为扩展名。</p>\n<h3 id=\"main\">main函数</h3>\n<pre><code class=\"C\">int main(void)\n</code></pre>\n\n<p>声明了一个名字叫 <code>main</code> 的函数。除了少数例外情况外，C语言程序都是从<code>main</code>函数开始的。</p>\n<p>接下来的 <code>{</code> 和最后一行的 <code>}</code> 分别表示一个代码块的开始和结束。这里，该代码块就是函数体。</p>\n<h3 id=\"_3\">输出信息</h3>\n<pre><code class=\"C\">    puts(&quot;Hello world&quot;);\n</code></pre>\n\n<p>这一行通过<code>puts</code>函数输出字符串 <code>Hello world</code>。<code>puts</code>是在<code>stdio.h</code>里面声明的一个库函数。\n它的功能是将其参数字符串输出到终端。</p>\n<p>而两个<code>\"</code>标识了一个字符串。这里我们的字符串是 <code>Hello world</code>。</p>\n<h3 id=\"_4\">返回语句</h3>\n<pre><code class=\"C\">    return 0;\n</code></pre>\n\n<p>在<code>int main(void)</code>中，<code>int</code> 表示<code>main</code>函数的返回值应该是一个整数。\n这是C语言标准的要求。而关键字<code>return</code>引导的return语句这表示<code>main</code>函数的返回值为<code>0</code>。\n而C语言标准中，<code>main</code>函数返回<code>0</code>表示程序成功运行。</p>\n<p class=\"exerciese\">现在修改右边的代码，使程序的输出你的名字，然后点击<kbd>运行</kbd>按钮。</p>\n",
+      "instructions": "<p>自从Kernighan和Ritchie在《The C Programming Language》中第一个示例采用<code>Hello world</code>程序后，这一程序的相应版本在很多介绍语言的书和教程里面都采用这一例子。</p>\n<p>那么让我们来看一看这个具有传奇色彩的程序是什么样子的：</p>\n<pre><code class=\"C\">#include &lt;stdio.h&gt;\n\nint main(void)\n{\n    puts(&quot;Hello world&quot;);\n    return 0;\n}\n</code></pre>\n\n<p>猜一下这个程序的功能是什么。</p>\n<p class=\"exerciese\">好，现在在右边点击<kbd>运行</kbd>按钮，看看运行结果和你的猜想是不是一样的。</p>\n<p>是的，你可能猜对了，这个程序输出一条 <code>Hello world</code> 消息。</p>\n<h2 id=\"_1\">详细说明</h2>\n<p>我们来仔细看一下这个程序。</p>\n<h3 id=\"_2\">引入头文件</h3>\n<pre><code class=\"C\">#include &lt;stdio.h&gt;\n</code></pre>\n\n<p>该语句的作用是相当于你在文件中该行所在的位置键入了文件 <code>stdio.h</code> 的全部内容。\n事实上，它是一种拷贝和粘贴操作。</p>\n<p>这一功能是由预处理指令 <code>#include</code> 指示预处理器（Preprocessor）进行的。\n而执行这一预处理器任务的过程叫预处理（Preprocessing）。</p>\n<p><code>stdio.h</code> 是C语言标准库中的一部分，他它包含了有关输入和输出函数的信息以供编译器使用。\n通常向<code>stdio.h</code>这样的信息文件都放在程序代码源文件（<code>.c</code>）的头部，因此他们被称为头文件(header file)，\n并且按照习惯，都以<code>.h</code>为扩展名。</p>\n<h3 id=\"main\">main函数</h3>\n<pre><code class=\"C\">int main(void)\n</code></pre>\n\n<p>声明了一个名字叫 <code>main</code> 的函数。除了少数例外情况外，C语言程序都是从<code>main</code>函数开始的。</p>\n<p>接下来的 <code>{</code> 和最后一行的 <code>}</code> 分别表示一个代码块的开始和结束。这里，该代码块就是函数体。</p>\n<h3 id=\"_3\">输出信息</h3>\n<pre><code class=\"C\">    puts(&quot;Hello world&quot;);\n</code></pre>\n\n<p>这一行通过<code>puts</code>函数输出字符串 <code>Hello world</code>。<code>puts</code>是在<code>stdio.h</code>里面声明的一个库函数。\n它的功能是将其参数字符串输出到终端。</p>\n<p>而两个<code>\"</code>标识了一个字符串。这里我们的字符串是 <code>Hello world</code>。</p>\n<h3 id=\"_4\">返回语句</h3>\n<pre><code class=\"C\">    return 0;\n</code></pre>\n\n<p>在<code>int main(void)</code>中，<code>int</code> 表示<code>main</code>函数的返回值应该是一个整数。\n这是C语言标准的要求。而关键字<code>return</code>引导的return语句这表示<code>main</code>函数的返回值为<code>0</code>。\n而C语言标准中，<code>main</code>函数返回<code>0</code>表示程序成功运行。</p>\n<p class=\"exerciese\">现在修改右边的代码，使程序的输出你的名字，然后点击<kbd>运行</kbd>按钮。</p><p>注意：由于浏览器全面支持中文，所以你在这里可以输入中文，但是在Windows中你编译运行可能会看到乱码。</p>\n",
       "files":[
         {
           "name":"main.c",
-          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(void)\n{\n\tprintf(\"Hello World!\\n\");\n\treturn 0;\n}\n"
-        }
-      ]
-    },
-    {
-      "title": "创建变量",
-      "instructions": "创建一个名叫`lastname`的变量。在编辑窗口中输入你的名字。",
-      "files":[
-        {
-          "name":"main.c",
-          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(void)\n{\n\tconst char* lastname = \"/*//输入你的姓//*/\";\n\treturn 0;\n}\n",
+          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(void)\n{\n\tputs(\"Hello world\");\n\treturn 0;\n}\n",
           "captures":{
-            "lastname":"lastname[ \\t]*=[ \\t]*\"([^\\\"]+)\""
+            "name":"puts\\(\\s*\"([^\"\n\\)]+)\"\\s*\\)"
           }
         }
       ]
     },
     {
-      "title": "格式化输出",
-      "templates":true,
-      "instructions": "恭喜你，小{{lastname}}，你已经学会创建变量了。现在让我们来输出一个变量。",
+      "title": "创建变量",
+      "instructions": "</style><title>创建变量</title></head><body><p>一个很原始的方式是每次需要的地方都键入你的名字<code>\"{{name}}\"</code>，但是我们有更好的办法来存储你的名字这样便于访问和修改。</p>\n<p>我们可以将字符串（或者其他值）存储在<strong>变量</strong>里面。变量就像一个有标签的盒子。我们把东西（字符串）放在盒子里面，然后给它取一个名字以便我们以后查找和使用。变量名通常用于描述它里面存储了什么。按照习惯通常以小写字母开头，而且只能包含字母和数字或者下划线。</p>\n<p>就像我们需要选择适合的盒子来放东西一样，我们也需要选择适当的变量类型来存放值。对于字符串值，我们需要选择的的类型是<code>const char *</code>。下面就是我们创建字符串变量的方式：</p>\n<pre><code class=\"C\">const char* name = &quot;{{name}}&quot;;\n</code></pre>\n\n<p><code>const char*</code>是变量的类型（我们以后会讲解<code>const</code> <code>char</code> 和 <code>*</code>的意思），而 <code>=</code> 操作符（operator）将 <code>\"{{name}}\"</code> 存储在名为 <code>name</code> 的变量中。</p>\n<p class=\"exerciese\">来吧填充右边空缺的代码来创建你的第一个字符串变量。</p>\n",
       "files":[
         {
           "name":"main.c",
-          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(void)\n{\n\tconst char* lastname = \"{{lastname}}\";\n\tprintf(\"你好小%s！\", /*//输入姓的变量//*/);\n\treturn 0;\n}\n"
+          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(void)\n{\n\tconst char* name = \"/*//输入你的姓//*/\";\n\treturn 0;\n}\n",
+          "captures":{
+            "name":"name[ \\t]*=[ \\t]*\"([^\\\"]+)\""
+          }
         }
       ]
     },
     {
-      "title": "两个占位符",
-      "templates":true,
-      "instructions": "两个占位符……",
+      "title": "输出名字",
+      "instructions": "<p>现在我们已经有了一个存储你名字的字符串值的变量。但是如何想前面的<code>puts(\"{{name}}\");</code>一样输出它呢？很简单，用 <code>name</code> 变量替代 <code>\"{{name}}\"</code>。</p>\n<p class=\"exerciese\">现在让我们用变量技术来再次打印你的名字。</p>\n",
       "files":[
         {
           "name":"main.c",
-          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(void)\n{\n\tconst char* firstname = \"/*//输入你的名//*/\";\n\tconst char* lastname = \"{{lastname}}\";\n\tprintf(\"你好%s%s！\\n\", /*//输入姓的变量//*/, /*//输入名的变量//*/);\n\treturn 0;\n}\n"
+          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(void)\n{\n\tconst char* name = \"{{name}}\";\n\tputs(/*//输入名字的变量//*/);\n\treturn 0;\n}\n"
         }
       ]
     }
