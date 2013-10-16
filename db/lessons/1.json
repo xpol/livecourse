@@ -19,7 +19,7 @@
       "files":[
         {
           "name":"main.c",
-          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(void)\n{\n\tconst char* name = \"/*//输入你的姓//*/\";\n\treturn 0;\n}\n",
+          "initial_value": "#include &lt;stdio.h&gt;\n\nint main(void)\n{\n\tconst char* name = \"/*//输入你的名字//*/\";\n\treturn 0;\n}\n",
           "captures":{
             "name":"name[ \\t]*=[ \\t]*\"([^\\\"]+)\""
           }
