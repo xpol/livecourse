@@ -2,10 +2,10 @@ var fs = require('fs');
 var path = require('path');
 var rimraf = require('rimraf')
 var spawn = require("child_process").spawn;
-var temp = require("temp");
+var tmp = require("tmp");
 var winston = require('winston');
 
-temp.track();
+tmp.setGracefulCleanup();
 
 var errors_zhCN = {
 	'错误':'error',
@@ -98,7 +98,9 @@ exports.index = function(req, res){
 	var lines = ''
 	var reports = {}
 
-	temp.mkdir('lbd', function(err, dirPath){
+	tmp.dir(function(err, dirPath){
+	  if (err) throw err;
+
 		var cwd = path.join(dirPath);
 		winston.debug('Created:'+cwd)
 		function cleanup(){
