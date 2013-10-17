@@ -75,7 +75,7 @@ var conf = {
 			scan:gcc_scan
 		},
 		run:{
-			cmd:(process.platform === "win32") ? 'a.exe' : 'a.out',
+			cmd:(process.platform === "win32") ? 'a.exe' : './a.out',
 			options:function(filename){
 				return [];
 			}
