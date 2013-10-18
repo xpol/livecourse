@@ -30,10 +30,13 @@ var winstonStream = {
 };
 
 
-winston
-  .remove(winston.transports.Console)
-  .add(winston.transports.Console, {colorize:true, silent:false, level:"warn"}) // Levels: silly/debug/verbose/info/warn/error
-  .add(winston.transports.File, {colorize:false, level:"info", json:false, filename:accesslog, timestamp:true})
+winston.remove(winston.transports.Console)
+if ('development' == app.get('env'))
+{
+  winston.add(winston.transports.Console, {colorize:true, silent:false, level:"warn"}) // Levels: silly/debug/verbose/info/warn/error
+  winston.add(winston.transports.File, {colorize:false, level:"info", json:false, filename:accesslog, timestamp:true})
+}
+  
 
 // all environments
 app.set('port', process.env.PORT || 80);
