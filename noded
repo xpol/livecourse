@@ -11,12 +11,12 @@
 
 
 # ## Install:
-# chmod 755 noded.sh
-# sudo cp noded.sh /etc/init.d
-# sudo update-rc.d noded.sh defaults
+# chmod 755 noded
+# sudo cp noded /etc/init.d
+# sudo update-rc.d noded defaults
 # ## Remove:
-# sudo update-rc.d -f noded.sh remove
-# sudo rm /etc/init.d/noded.sh
+# sudo update-rc.d -f noded remove
+# sudo rm /etc/init.d/noded
 
 NODE=/opt/node/bin/node
 APP=/home/pi/live/app.js
