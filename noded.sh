@@ -1,5 +1,23 @@
 #!/bin/bash
 
+
+### BEGIN INIT INFO
+# Provides:          noded
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+### END INIT INFO
+
+
+# ## Install:
+# chmod 755 noded.sh
+# sudo cp noded.sh /etc/init.d
+# sudo update-rc.d noded.sh defaults
+# ## Remove:
+# sudo update-rc.d -f noded.sh remove
+# sudo rm /etc/init.d/noded.sh
+
 NODE=/opt/node/bin/node
 APP=/home/pi/live/app.js
 USER=pi
