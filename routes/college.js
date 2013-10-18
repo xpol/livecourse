@@ -1,5 +1,6 @@
 var fs = require('fs')
-var colleges = JSON.parse(fs.readFileSync('db/colleges/all.json'))
+var path = require('path')
+var colleges = JSON.parse(fs.readFileSync(path.join(__dirname,'../db/colleges/all.json')))
 
 
 

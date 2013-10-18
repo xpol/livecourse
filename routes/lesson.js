@@ -1,4 +1,5 @@
 var fs = require('fs')
+var path = require('path')
 var index = require('./index')
 
 
@@ -8,7 +9,7 @@ var index = require('./index')
 
 exports.index = function(req, res){
   var id = req.param("course")
-  var filename = 'db/lessons/'+id+'.json'
+  var filename = path.join(__dirname, '../db/lessons/'+id+'.json')
 
   fs.readFile(filename, function(err, data){
   	if (err)
