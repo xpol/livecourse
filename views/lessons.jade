@@ -13,8 +13,8 @@ block content
 					ul.nav.nav-tabs
 						li.active
 							a(data-target="terminal") 控制台
-					.tab-content
-						.tab-pane.fade.active.in#terminal
+				#terminal-panel
+					.hidden#terminal
 				.editor-statusbar
 					span.glyphicon.glyphicon-play.pull-left#commit(title="编译并运行代码")
 					span.glyphicon.glyphicon-arrow-right.pull-left.hidden#links-next
@@ -31,7 +31,7 @@ block content
 					h4.modal-title 练习完成
 				
 				.modal-body
-					做的好！已经完成这个练习。
+					p 做的好！已经完成这个练习。
 				
 				.modal-footer
 					button#dialog-done-stay.btn.btn-default(type="button", data-dismiss="modal") 停留
