@@ -236,7 +236,7 @@ window.Course = (function(){
 			});
 
 			function next(){
-				$('#links-next').hide();
+				$('#links-next').addClass('hidden', 200);
 				var n = exercises.current + 1
 				if (n == exercises.length)
 					return
@@ -247,7 +247,7 @@ window.Course = (function(){
 			$('#links-next').click(next)
 			$('#dialog-done-next').click(next)
 			$('#dialog-done-stay').click(function(){
-				$('#links-next').removeClass('hidden');
+				$('#links-next').removeClass('hidden', 200);
 			})
 		}
 
