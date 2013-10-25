@@ -1,0 +1,204 @@
+html, body,h1, h2, h3, h4, h5, h6 {
+  font-family: "Microsoft YaHei", "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+code, pre { font-family: Monaco, Consolas}
+body { padding: 20px; }
+h2 { font-size: 20px;}
+/*a { color: #00B7FF;}*/
+
+/*
+* Custom Bootstrap
+*/
+.navbar-brand {padding: 8px; }
+.row { margin-top: 5px; }
+
+
+.nav.nav-tabs {
+	height: 35px;
+	background-image: url(/images/tabset-background.png);
+	border-style: none;
+	padding-top: 7px;
+}
+.nav.nav-tabs li {
+	border-style: none;
+	margin-right: -25px;
+}
+
+.nav.nav-tabs li.active {
+	z-index: 100;
+}
+
+
+.nav.nav-tabs li.active:before
+{
+	background:url(/images/tab-margins.png) 0 -3px;
+}
+.nav.nav-tabs li.active:after
+{
+	background:url(/images/tab-margins.png) -18px -3px;
+}
+.nav.nav-tabs li.active a{
+	background-origin: padding-box;
+	background:url(/images/tab-active.png) 0 -3px;
+}
+
+.nav.nav-tabs li.active a:hover {
+	border-style: none;
+	color: gray;
+}
+
+.nav.nav-tabs li:before
+{
+	content: "";
+	border-style: none;
+	width: 18px;
+	height: 26px;
+	display: inline-block;
+	vertical-align:middle;
+	background:url(/images/tab-margins.png) 0 25px;
+}
+.nav.nav-tabs li:after
+{
+	content: "";
+	border-style: none;
+	width: 18px;
+	height: 26px;
+	display: inline-block;
+	vertical-align:middle;
+	background:url(/images/tab-margins.png) -18px 25px;
+
+}
+.nav.nav-tabs li a {
+	min-width: 80px;
+	padding: 2px 8px 6px 8px;
+	color:rgb(68, 66, 69);
+	cursor: pointer;
+	margin-right: 0px;
+	border-radius: 0;
+	border-style: none;
+	height: 26px;
+	background:url(/images/tab-inactive.png) 0 -3px;
+	color: gray;
+	cursor: default;
+	display: inline-block;
+	vertical-align:middle;
+}
+
+
+
+.editor-statusbar
+{
+	padding-top: 4px;
+	height: 22px;
+	background:url(/images/status-bar-background.png);
+
+}
+
+.editor-statusbar span {
+	color: gray;
+	font-size: 12px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+#exercises {
+}
+#editor-panels {
+	
+}
+
+.CodeMirror {height: 300px;min-width: 350px;}
+
+.CodeMirror-widget { background-color: rgb(213, 215, 217); background-origin: padding-box; border-radius: 20px; color: rgb(0, 0, 0); cursor: text;}
+.CodeMirror-widget.hilight {background-color: #b58900;}
+
+.CodeMirror-linewidget {color: #fff;padding-left: 4px;padding-right: 4px;tab-size:4;text-shadow: none;}
+.CodeMirror-linewidget .error {background: #a51e22;}
+.CodeMirror-linewidget .warning {background: #b58900;}
+.CodeMirror-linewidget .anchor {white-space: pre;}
+
+#exercise-links{
+	width: 100%;
+	padding-right: 80px;
+	padding-left: 80px;
+}
+
+#terminal-panel {
+	position: relative;
+	z-index: 99;
+}
+
+#terminal
+{
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 120px;
+	background-image: url(/images/panel-background.png);
+	overflow:auto;
+	padding-top: 10px;
+}
+
+#terminal pre {
+	font-family: Monaco;
+	background-color: transparent;
+	color: gray;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	margin-bottom: 0px;
+	border-style: none;
+	border-radius: 0px;
+	border-top: 1px dashed darkgray;
+}
+
+#terminal pre:first-child {
+	border-top: 0px none;
+}
+
+#terminal pre.active {
+	color: white;
+}
+
+#terminal pre.active.black {
+	border-top: 0px none;
+	color: black;
+}
+
+#instructions {
+	height: 700px;
+	overflow: auto;
+}
+
+#instructions .exerciese {
+	border: 2px solid rgb(204, 204, 204);
+	margin-top: 2.5em;
+	padding: 1.5em;
+	position: relative;
+}
+
+#instructions .exerciese:before {
+	position: absolute;
+	color: rgb(204, 204, 204);
+	content: ">_";
+	background: gray;
+	border: 4px solid rgb(204, 204, 204);
+	margin: 4px;
+	padding: 2px;
+	font-size: 1em;
+	font-weight: bold;
+	font-family: "Lucida Console";
+	width: 28px;
+	height: 26px;
+	left: 10px;
+	top: -20px;
+}
+
+
+#instructions .exerciese:after {
+	position: absolute;
+	color: rgb(204, 204, 204);
+	bottom: 5px;
+	content: "任务";
+	font-size: 0.7em;
+	right: 10px;
+}

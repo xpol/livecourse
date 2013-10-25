@@ -1,0 +1,43 @@
+doctype 5
+html(lang="zhCN")
+	head
+		title 在线课堂
+
+		meta(charset="UTF-8")
+		meta(name="viewport" content="width=device-width, initial-scale=1.0")
+		meta(name="description" content="")
+
+		// CSS
+		link(rel="stylesheet", href="/stylesheets/bootstrap.css", media="all")
+		link(rel="stylesheet", href="/stylesheets/bootstrap-theme.css", media="all")
+		link(rel='stylesheet', href='/stylesheets/style.css', media="all")
+
+		// Javascript
+		script(src="/javascripts/jquery-2.0.3.min.js")
+		script(src="/javascripts/bootstrap.min.js")
+	body
+		- var navs = [{url:'/colleges', title:"院系"},{url:'/branches', title:"专业"},{url:'/courses', title:"课程"},{url:'/about', title:"关于"}]
+		.navbar.navbar-default
+			.container
+				.navbar-header
+					button.navbar-toggle(type="button",data-toggle="collapse",data-target=".navbar-collapse")
+						span.icon-bar
+						span.icon-bar
+						span.icon-bar
+					a.navbar-brand(href="/"): img(src="/images/Home.png")
+				.navbar-collapse.collapse
+					.nav.navbar-nav
+						- navs.forEach(function(item){
+							- var active = (item.url == path ? 'active' : '')
+							li(class=active)
+								a(href=item.url)= item.title
+						- })
+					form.navbar-form.navbar-right
+						.form-group
+							input.form-control(type="text", placeholder="Email")
+						.form-group
+							input.form-control(type="password" placeholder="Password")
+						button.btn.btn-success(type="submit") 登录
+
+		block content
+

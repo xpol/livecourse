@@ -1,0 +1,17 @@
+extends layout
+
+block content
+	h1 关于
+
+#exercises.col-md-12
+		#editor-panels
+				ul#editor-tabs.nav.nav-tabs
+				#editor-buffers.tab-content
+
+		#exercise-links.btn-toolbar
+			.btn-group
+				button.btn.btn-default(disabled="disabled") 提示
+
+			.btn-group.pull-right
+				button#commit.btn.btn-success(title="编译并运行代码") 提交
+				button#links-next.gonext.next.btn.btn-default(disabled="disabled") 下一个

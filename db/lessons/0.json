@@ -1,0 +1,40 @@
+{
+  "exercises": [
+    {
+      "title": "Hello World!",
+      "instructions": "<p>自从Kernighan和Ritchie在《The C Programming Language》中第一个示例采用<code>Hello world</code>程序后，这一程序的相应版本在很多介绍语言的书和教程里面都采用这一例子。</p>\n<p>那么让我们来看一看这个具有传奇色彩的程序的Java版本是什么样子的：</p>\n<pre><code class=\"Java\">public class Hello\n{\n    public static void main(String args[])\n    {\n        System.out.println(&quot;Hello world&quot;);\n    }\n}\n</code></pre>\n\n<p>这个程序输出一条 <code>Hello world</code> 消息。</p>\n<h2 id=\"_1\">详细说明</h2>\n<p>我们来仔细看一下这个程序。</p>\n<h3 id=\"_2\">声明一个类</h3>\n<pre><code class=\"C\">public class Hello\n</code></pre>\n\n<p>这一行声明了一个名字叫 <code>Hello</code> 的类。\nJava是一门面向对象的语言。面向对象的语言的基本单元就是类。</p>\n<p>按照规范，类的名字中各个单词首字母大写。</p>\n<p>接下来的 <code>{</code> 和最后一行的 <code>}</code> 分别表示一个代码块的开始和结束。这里，该代码块就是类的定义的内容。</p>\n<h3 id=\"main\">main静态方法</h3>\n<pre><code class=\"C\">public static void main(String args[])\n</code></pre>\n\n<p>声明了一个名字叫 <code>main</code> 的静态方法。Java程序都是从主类的一个名字叫 <code>main</code> 的静态方法开始的。</p>\n<p>接下来的代码块是main方法的定义。</p>\n<h3 id=\"_3\">输出信息</h3>\n<pre><code class=\"C\">    System.out.println(&quot;Hello world&quot;);\n</code></pre>\n\n<p>这一行通过<code>System.out.println</code>方法输出字符串 <code>Hello world</code>。<code>System.out.println</code>是在语言核心的一个API。\n它的功能是将其参数字符串输出到终端。</p>\n<p>而两个<code>\"</code>标识了一个字符串。这里我们的字符串是 <code>Hello world</code>。</p>\n<p class=\"exerciese\">现在修改右边的代码，使程序的输出你的名字，然后点击<kbd>运行</kbd>按钮。</p>\n",
+      "files":[
+        {
+          "name":"Hello.java",
+          "initial_value": "public class Hello {\n\tpublic static void main(String args[]) {\n\t\tSystem.out.println(\"Hello world\");\n\t}\n}\n",
+          "captures":{
+            "name":"println\\(\\s*\"([^\"\n\\)]+)\"\\s*\\)"
+          }
+        }
+      ]
+    },
+    {
+      "title": "创建变量",
+      "instructions": "<p>一个很原始的方式是每次需要的地方都键入你的名字<code>\"{{name}}\"</code>，但是我们有更好的办法来存储你的名字这样便于访问和修改。</p>\n<p>我们可以将字符串（或者其他值）存储在<strong>变量</strong>里面。变量就像一个有标签的盒子。我们把东西（字符串）放在盒子里面，然后给它取一个名字以便我们以后查找和使用。变量名通常用于描述它里面存储了什么。按照习惯通常以小写字母开头，而且只能包含字母和数字或者下划线。</p>\n<p>就像我们需要选择适合的盒子来放东西一样，我们也需要选择适当的变量类型来存放值。对于字符串值，我们需要选择的的类型是<code>String</code>。下面就是我们创建字符串变量的方式：</p>\n<pre><code class=\"Java\">String name = &quot;{{name}}&quot;;\n</code></pre>\n\n<p><code>String</code> 是一个类，这里表示要实例化一个该类是变量。而 <code>=</code> 操作符（operator）将 <code>\"{{name}}\"</code> 存储在名为 <code>name</code> 的变量中。</p>\n<p class=\"exerciese\">来吧填充右边空缺的代码来创建你的第一个字符串变量。</p>\n",
+      "files":[
+        {
+          "name":"Hello.java",
+          "initial_value": "public class Hello {\n\tpublic static void main(String args[]) {\n\t\tString name = \"/*//输入你的名字//*/\";\n\t}\n}\n",
+          "captures":{
+            "name":"name[ \\t]*=[ \\t]*\"([^\\\"]+)\""
+          }
+        }
+      ]
+    },
+    {
+      "title": "输出名字",
+      "instructions": "<p>现在我们已经有了一个存储你名字的字符串值的变量。但是如何像前面的<code>System.out.println(\"{{name}}\");</code>一样输出它呢？很简单，用 <code>name</code> 变量替代 <code>\"{{name}}\"</code>。</p>\n<p class=\"exerciese\">现在让我们用变量技术来再次打印你的名字。</p>\n",
+      "files":[
+        {
+          "name":"Hello.java",
+          "initial_value": "public class Hello {\n\tpublic static void main(String args[]) {\n\t\tString name = \"{{name}}\";\n\t\tSystem.out.println(/*//输入名字的变量//*/);\n\t}\n}\n"
+        }
+      ]
+    }
+  ]
+}
