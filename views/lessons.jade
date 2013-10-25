@@ -9,26 +9,18 @@ block content
 		#editor-panels
 				ul#editor-tabs.nav.nav-tabs
 				#editor-buffers.tab-content
+				#output-panels.hidden
+					ul.nav.nav-tabs
+						li.active
+							a(data-target="terminal") 控制台
+					.tab-content
+						.tab-pane.fade.active.in#terminal
 				.editor-statusbar
-					span.glyphicon.glyphicon-play.pull-left
+					span.glyphicon.glyphicon-play.pull-left#commit(title="编译并运行代码")
+					span.glyphicon.glyphicon-arrow-right.pull-left.hidden#links-next
 					span.glyphicon.glyphicon-cog.pull-right
 					span.pull-right C
 					span.pull-right Tab: 4
-
-		#exercise-links.btn-toolbar
-			.btn-group
-				button.btn.btn-default(disabled="disabled") 提示
-
-			.btn-group.pull-right
-				button#commit.btn.btn-success(title="编译并运行代码") 提交
-				button#links-next.gonext.next.btn.btn-default(disabled="disabled") 下一个
-
-		#output-panels
-			ul.nav.nav-tabs
-				li.active
-					a(data-target="terminal") 控制台
-			.tab-content
-				.tab-pane.fade.active.in#terminal
 
 	// dialogs
 	#dialog-done.modal.fade(tabindex="-1", role="dialog", aria-labelledby="dialog-done-label", aria-hidden="true")
