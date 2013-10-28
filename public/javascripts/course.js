@@ -150,9 +150,20 @@ window.Course = (function(){
 	function setupButtons(exercises){
 			var posted = false;
 			var widgets = []
+			var terminal = $('#terminal')
+
+			terminal.hide();
+			terminal.width($('.editor-statusbar').width())
+			terminal.click(function(){
+				terminal.hide('Clip')
+			});
+			$('#links-next').hide()
+
 			$('#commit').click(function(){
 				if (posted)
 					return;
+
+				terminal.hide('Clip')
 
 				// check if all widget have been filled.
 				$(".CodeMirror-widget").each(function(index){
@@ -211,32 +222,24 @@ window.Course = (function(){
 						}
 					}
 					var noissue = (lastLine == -1) // still -1, means no errors...
-
-					var terminal = $('#terminal')
-					function appendConsole() {
-						var lines = res.outputs.split(/\r\n|\r|\n/).length
-						terminal.append('<pre class="active black" data-lines="'+lines+'">'+res.outputs+'</pre>');
-						var s = terminal.prop("scrollHeight") - terminal.height()
-						terminal.animate({ scrollTop: s}, 300, function(){
-							terminal.children('pre:last-child').removeClass('black', 100);
-							posted = false;
-							if (noissue)
-							{
+					posted = false;
+					if (noissue) {
+						function appendConsole() {
+							terminal.children('pre').text('')
+							terminal.show('Clip', function(){
+								terminal.children('pre').text(res.outputs)
 								var dialog = ((exercises.current + 1) == exercises.length) ? $('#dialog-alldone') : $('#dialog-done')
 								dialog.modal()
-							}
-						});
-					}
-					var last = terminal.children('pre:last-child')
-					if (last.length > 0)
-						last.removeClass('active', last.data('lines')*100, appendConsole);
-					else
+							})
+						}
 						appendConsole();
+					}
 				});
 			});
 
 			function next(){
-				$('#links-next').addClass('hidden', 200);
+				$('#links-next').hide();
+				terminal.hide('Clip');
 				var n = exercises.current + 1
 				if (n == exercises.length)
 					return
@@ -247,7 +250,7 @@ window.Course = (function(){
 			$('#links-next').click(next)
 			$('#dialog-done-next').click(next)
 			$('#dialog-done-stay').click(function(){
-				$('#links-next').removeClass('hidden', 200);
+				$('#links-next').show();
 			})
 		}
 

@@ -111,7 +111,7 @@ exports.index = function(req, res){
 			var args = action.options(filename)
 			var cmd = action.cmd + " " + args.join(" ")
 			winston.debug(cmd)
-			lines = lines + "\n>" + cmd + "\n"
+			//lines = lines + "\n>" + cmd + "\n"
 			if (action.hiddenOptions)
 				args = action.hiddenOptions.concat(args)
 			var p = spawn(action.cmd, args, { cwd:cwd})
@@ -147,6 +147,7 @@ exports.index = function(req, res){
 
 		function postCompile (code){
 			reports = cfg.compile.scan(lines.split(/\r\n|\n|\r/))
+			lines = ''
 			if (code !== 0)
 				return end();
 
