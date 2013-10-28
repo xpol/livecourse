@@ -9,15 +9,12 @@ block content
 		#editor-panels
 				ul#editor-tabs.nav.nav-tabs
 				#editor-buffers.tab-content
-				#output-panels.hidden
-					ul.nav.nav-tabs
-						li.active
-							a(data-target="terminal") 控制台
 				#terminal-panel
-					.hidden#terminal
+					#terminal
+						pre
 				.editor-statusbar
 					span.glyphicon.glyphicon-play.pull-left#commit(title="编译并运行代码")
-					span.glyphicon.glyphicon-arrow-right.pull-left.hidden#links-next
+					span.glyphicon.glyphicon-arrow-right.pull-left#links-next
 					span.glyphicon.glyphicon-cog.pull-right
 					span.pull-right C
 					span.pull-right Tab: 4

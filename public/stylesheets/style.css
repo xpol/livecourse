@@ -104,7 +104,6 @@ h2 { font-size: 20px;}
 #exercises {
 }
 #editor-panels {
-	
 }
 
 .CodeMirror {height: 300px;min-width: 350px;}
@@ -125,6 +124,7 @@ h2 { font-size: 20px;}
 
 #terminal-panel {
 	position: relative;
+	width: 100%;
 	z-index: 99;
 }
 
@@ -142,27 +142,14 @@ h2 { font-size: 20px;}
 #terminal pre {
 	font-family: Monaco;
 	background-color: transparent;
-	color: gray;
+	color: white;
 	padding-top: 0px;
 	padding-bottom: 0px;
 	margin-bottom: 0px;
 	border-style: none;
 	border-radius: 0px;
-	border-top: 1px dashed darkgray;
 }
 
-#terminal pre:first-child {
-	border-top: 0px none;
-}
-
-#terminal pre.active {
-	color: white;
-}
-
-#terminal pre.active.black {
-	border-top: 0px none;
-	color: black;
-}
 
 #instructions {
 	height: 700px;
